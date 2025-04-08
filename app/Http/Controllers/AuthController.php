@@ -24,4 +24,8 @@ class AuthController extends Controller
     public function forgot(){
         return view ('auth.forgot');
     }
+    public function logout(){
+        Auth::logout();
+        return redirect('/login');
+    }
 }
