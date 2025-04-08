@@ -22,15 +22,17 @@
                 <div class="login-logo"></div>
                 <div class="login-body">
                     <div class="login-title"><strong>Log In</strong> to your account</div>
-                    <form action="index.html" class="form-horizontal" method="post">
+                    <form action="" class="form-horizontal" method="post">
+                     @csrf
+                     @include('_message')
                     <div class="form-group">
                         <div class="col-md-12">
-                            <input type="text" class="form-control" placeholder="E-mail"/>
+                            <input type="text" name="email" required class="form-control" placeholder="E-mail"/>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-12">
-                            <input type="password" class="form-control" placeholder="Password"/>
+                            <input type="password" name="password" required class="form-control" placeholder="Password"/>
                         </div>
                     </div>
                     <div class="form-group">
