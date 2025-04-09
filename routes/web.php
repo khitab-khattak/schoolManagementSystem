@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\DashboardController;
+use App\Http\Controllers\backend\SchoolController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,5 +15,7 @@ Route::get('/logout',[AuthController::class, 'logout']);
 
 Route::group(['middleware'=>'common'],function(){
     Route::get('panel/dashboard',[DashboardController::class, 'dashboard']);
+    Route::get('panel/school/list',[SchoolController::class, 'school_list']);
+    Route::get('panel/school/create',[SchoolController::class, 'create_school']);
 });
 

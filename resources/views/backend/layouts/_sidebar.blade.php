@@ -27,7 +27,7 @@
             <a href="/panel/dashboard"><span class="fa fa-desktop"></span> <span class="xn-text">Dashboard</span></a>
         </li>
         <li class="{{ (Request::segment(2)=='school')?'active':''}}">
-            <a href="/panel/school" ><span class="fas fa-school"></span> <span style="margin-left:15px" class="xn-text">School</span></a>
+            <a href="{{ url('panel/school/list') }}" ><span class="fas fa-school"></span> <span style="margin-left:15px" class="xn-text">School</span></a>
         </li>
         <li class="xn-openable">
             <a href="#"><span class="fa fa-file-text-o"></span> <span class="xn-text">Layouts</span></a>
