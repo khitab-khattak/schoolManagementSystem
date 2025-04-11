@@ -42,28 +42,34 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($getSchool as $school)
+                                    @foreach ($getSchool as $value)
                                         <tr id="trow_1">
-                                            <td class="text-center">{{ $school->id }}</td>
+                                            <td class="text-center">{{ $value->id }}</td>
                                             <td>
-                                                <img src="{{ asset('upload/profile/' . $school->profile_pic) }}" width="50" height="50" style="border-radius: 50%;">
+                                                @if (!empty($value->profile_pic))
+                                                    <img src="{{ asset('upload/profile/' . $value->profile_pic) }}"
+                                                        width="50" height="50" style="border-radius: 50%;">
+                                                @endif
                                             </td>
-                                            <td><strong>{{ $school->name }}</strong></td>
-                                            <td>{{ $school->email }}</td>
-                                            <td>{{ $school->address }}</td>
+                                            <td><strong>{{ $value->name }}</strong></td>
+                                            <td>{{ $value->email }}</td>
+                                            <td>{{ $value->address }}</td>
                                             <td>
                                                 <span
-                                                    class="label {{ $school->status == 1 ? 'label-success' : 'label-danger' }}">
-                                                    {{ $school->status == 1 ? 'Active' : 'Inactive' }}
+                                                    class="label {{ $value->status == 1 ? 'label-success' : 'label-danger' }}">
+                                                    {{ $value->status == 1 ? 'Active' : 'Inactive' }}
                                                 </span>
                                             </td>
-                                            <td>{{ $school->created_at->format('d M, Y h:i A') }}</td>
+                                            <td>{{ $value->created_at->format('d M, Y h:i A') }}</td>
                                             <td>
-                                                <button class="btn btn-default btn-rounded btn-sm"><span
-                                                        class="fa fa-pencil"></span></button>
-                                                <button class="btn btn-danger btn-rounded btn-sm"
-                                                    onClick="delete_row('trow_1');"><span
-                                                        class="fa fa-times"></span></button>
+                                                <a href="{{ url('panel/school/edit/'.$value->id) }}" class="btn btn-default btn-rounded btn-sm"><span
+                                                        class="fa fa-pencil"></span></a>
+                                                        <a href="{{ url('panel/school/delete/' . $value->id) }}"
+                                                            class="btn btn-danger btn-rounded btn-sm"
+                                                            onclick="return confirm('Are you sure you want to delete this school?');">
+                                                             <span class="fa fa-times"></span>
+                                                         </a>
+                                                         
                                             </td>
                                         </tr>
                                     @endforeach
