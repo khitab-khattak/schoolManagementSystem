@@ -17,24 +17,29 @@
     <div class="page-content-wrap">
         <div class="row">
             <div class="col-md-12">
+               
+
                 <div class="panel panel-default">
                     <div class="page-content-wrap">
 
                         <div class="row">
                             <div class="col-md-12">
 
-                                <form class="form-horizontal">
+                                <form method="POST" action="{{ url('panel/school/create') }}" enctype="multipart/form-data" class="form-horizontal">
+
+                                    @csrf
                                     <div class="panel panel-default">
 
                                         <div class="panel-body">
+                                            @include('_message')
 
                                             <!-- School Name -->
                                             <div class="form-group">
-                                                <label class="col-md-3 col-xs-12 control-label">School Name</label>
+                                                <label class="col-md-3 col-xs-12 control-label">School Name <span class="text-red-500">*</span></label>
                                                 <div class="col-md-6 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control" />
+                                                        <input name="name" value="{{ old('name') }}"type="text" class="form-control" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -44,46 +49,58 @@
                                                 <label class="col-md-3 col-xs-12 control-label">Profile Pic</label>
                                                 <div class="col-md-6 col-xs-12">
                                                     <div class="input-group">
-                                                        <input type="file" class=" form-control p-2 fileinput btn-primary" name="filename" id="filename" title="Browse file"/>
+                                                        <input name="profile_pic" type="file" class=" form-control  fileinput btn-primary" name="filename" id="filename" title="Browse file"/>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <!-- Email -->
                                             <div class="form-group">
-                                                <label class="col-md-3 col-xs-12 control-label">Email</label>
+                                                <label class="col-md-3 col-xs-12 control-label">Email<span class="text-red-500">*</span></label>
                                                 <div class="col-md-6 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input type="text" class="form-control" />
+                                                        <input name="email" value="{{ old('email') }}" type="text" class="form-control" required />
                                                     </div>
+                                                    <div class="text-red-600">{{ $errors->first('email')}}</div>
                                                 </div>
                                             </div>
 
                                             <!-- Password -->
                                             <div class="form-group">
-                                                <label class="col-md-3 col-xs-12 control-label">Password</label>
+                                                <label class="col-md-3 col-xs-12 control-label">Password<span class="text-red-500">*</span></label>
                                                 <div class="col-md-6 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-unlock-alt"></span></span>
-                                                        <input type="password" class="form-control" />
+                                                        <input name="password" type="password" class="form-control" required />
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <!-- Address -->
                                             <div class="form-group">
-                                                <label class="col-md-3 col-xs-12 control-label">Address</label>
+                                                <label class="col-md-3 col-xs-12 control-label">Address<span class="text-red-500">*</span></label>
                                                 <div class="col-md-6 col-xs-12">
-                                                    <textarea class="form-control"></textarea>
+                                                    <textarea name="address" class="form-control" required>{{ old('address') }}</textarea>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label">Status<span class="text-red-500">*</span></label>
+                                                <div class="col-md-6 col-xs-12">
+                                                    <select required class="form-control" name="status" id="">
+                                                 <option value="1">Active</option>
+                                                 <option value="0">Inactive</option>
+                                                </select>
+                                                </div>
+                                            </div>
+
 
                                         </div>
                                         <!-- Center Submit Button -->
                                         <div class="panel-footer d-flex justify-content-center">
-                                            <button class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
+                                        
                                     </div>
                                 </form>
 
