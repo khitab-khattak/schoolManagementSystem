@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -47,11 +49,36 @@ class User extends Authenticatable
     }
     static function getSchool()
     {
-        return self::select('*')
-            ->where('is_admin', '=', 3)
+        $return = self::select('*');
+
+        if(!empty(request()->get('id'))){
+            $return = $return->where('id', '=', request()->get('id'));
+        }
+        if(!empty(request()->get('name'))){
+            $return = $return->where('name', '=', request()->get('name'));
+        }
+
+        if(!empty(request()->get('email'))){
+            $return = $return->where('email', '=', request()->get('email'));
+        }
+
+        if(!empty(request()->get('address'))){
+            $return = $return->where('address', '=', request()->get('address'));
+        }
+
+        if(!empty(request()->get('status'))){
+            $status = request()->get('status');
+            if($status == 100)
+            {
+                $status=0;
+            }
+        }
+        
+         $return = $return->where('is_admin', '=', 3)
             ->where('is_delete', '=', 0)
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(10);
+            return $return;
     }
     static function getSingle($id){
         return User::find($id);
