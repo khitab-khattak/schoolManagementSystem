@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\SchoolController;
+use App\Http\Controllers\backend\AdminController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -15,6 +16,14 @@ Route::get('/logout',[AuthController::class, 'logout']);
 
 Route::group(['middleware'=>'common'],function(){
     Route::get('panel/dashboard',[DashboardController::class, 'dashboard']);
+    Route::get('panel/admin/list',[AdminController::class, 'admin_list']);
+    Route::get('panel/admin/create',[AdminController::class, 'create_admin']);
+    Route::post('panel/admin/create', [AdminController::class, 'insert_admin']);
+    Route::get('panel/admin/edit/{id}', [AdminController::class, 'edit_admin']);
+    Route::post('panel/admin/edit/{id}', [AdminController::class, 'update_admin']);
+    Route::get('panel/admin/delete/{id}', [AdminController::class, 'delete_admin'])->name('admin.delete');
+
+
     Route::get('panel/school/list',[SchoolController::class, 'school_list']);
     Route::get('panel/school/create',[SchoolController::class, 'create_school']);
     Route::post('panel/school/create', [SchoolController::class, 'insert_school']);

@@ -3,13 +3,13 @@
     <!-- START BREADCRUMB -->
     <ul class="breadcrumb">
         <li><a href="#">Home</a></li>
-        <li class="active">School</li>
+        <li class="active">Admin</li>
     </ul>
     <!-- END BREADCRUMB -->
 
     <!-- PAGE TITLE -->
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> School</h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span>Admins</h2>
     </div>
     <!-- END PAGE TITLE -->
 
@@ -22,11 +22,11 @@
                 <div class="panel panel-default">
 
                     <div class="panel-heading flex justify-between">
-                        <h3 class="panel-title">Search School</h3>
+                        <h3 class="panel-title">Search Admin</h3>
                     </div>
                     @include('_message')
                     <div class="panel-body">
-                        <form method="GET" action="{{ url('panel/school/list') }}">
+                        <form method="GET" action="{{ url('panel/admin/list') }}">
                             <div class="row">
                                 <div class="col-md-2">
                                     <label>Id</label>
@@ -34,9 +34,9 @@
                                         placeholder="ID">
                                 </div>
                                 <div class="col-md-2">
-                                    <label>School Name</label>
+                                    <label>Name</label>
                                     <input type="text" class="form-control" name="name" value="{{ request('name') }}"
-                                        placeholder="School Name">
+                                        placeholder="Name">
                                 </div>
                                 <div class="col-md-2">
                                     <label>Email</label>
@@ -48,18 +48,32 @@
                                     <input type="text" class="form-control" name="address"
                                         value="{{ request('address') }}" placeholder="Address">
                                 </div>
+
+                                <div class="col-md-2">
+                                    <label>Role</label>
+                                    <select class="form-control" name="is_admin">
+                                        <option value="">Select</option>
+                                        <option value="1" {{ request('is_admin') == '1' ? 'selected' : '' }}>Super Admin
+                                        </option>
+                                        <option value="2" {{ request('admin') == '2' ? 'selected' : '' }}>Admin
+                                        </option>
+                                    </select>
+                                </div>
+
+
                                 <div class="col-md-2">
                                     <label>Status</label>
                                     <select class="form-control" name="status">
                                         <option value="">Select</option>
-                                        <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Active</option>
-                                        <option value="100" {{ request('status') == '100' ? 'selected' : '' }}>Inactive</option>
+                                        <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Active
+                                        </option>
+                                        <option value="100" {{ request('status') == '100' ? 'selected' : '' }}>Inactive
+                                        </option>
                                     </select>
-                                    
                                 </div>
                                 <div class="col-md-12" style="margin-top: 25px;">
                                     <button type="submit" class="btn btn-primary">Search</button>
-                                    <a href="{{ url('panel/school/list') }}" class="btn btn-success">Reset</a>
+                                    <a href="{{ url('panel/admin/list') }}" class="btn btn-success">Reset</a>
                                 </div>
                             </div>
                         </form>
@@ -69,8 +83,8 @@
                 <div class="panel panel-default">
 
                     <div class="panel-heading flex justify-between">
-                        <h3 class="panel-title">School List</h3>
-                        <a class="btn btn-primary pull-right" href="{{ url('panel/school/create') }}">Create School</a>
+                        <h3 class="panel-title">Admin List</h3>
+                        <a class="btn btn-primary pull-right" href="{{ url('panel/admin/create') }}">Create Admin</a>
                     </div>
 
                     <div class="panel-body panel-body-table">
@@ -81,17 +95,18 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Profile</th>
-                                        <th>School Name</th>
+                                        <th>Name</th>
                                         <th>Email</th>
                                         <th>Address</th>
+                                        <th>Role</th>
                                         <th>Status</th>
                                         <th>Created Date</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (!empty($getSchool) && $getSchool->count())
-                                        @foreach ($getSchool as $value)
+                                    @if (!empty($getadmin) && $getadmin->count())
+                                        @foreach ($getadmin as $value)
                                             <tr id="trow_1">
                                                 <td class="text-center">{{ $value->id }}</td>
                                                 <td>
@@ -104,20 +119,30 @@
                                                 <td>{{ $value->email }}</td>
                                                 <td>{{ $value->address }}</td>
                                                 <td>
-                                                    @if ($value->status == 1)
-                                                    <span class="label label-success">Active</span>
-                                                    @else
-                                                    <span class="label label-danger">Inactive</span>
+                                                    @if ($value->is_admin == 1)
+                                                        <span class="label label-success">Super Admin</span>
+                                                    @elseif ($value->is_admin == 2)
+                                                        <span class="label label-warning">Admin</span>
                                                     @endif
-                                                   </td>
+                                                </td>
+                                                
+                                                
+                                                <td>
+                                                 @if ($value->status == 1)
+                                                 <span class="label label-success">Active</span>
+                                                 @else
+                                                 <span class="label label-danger">Inactive</span>
+                                                 @endif
+                                                </td>
+                                                
                                                 <td>{{ $value->created_at->format('d M, Y h:i A') }}</td>
                                                 <td>
-                                                    <a href="{{ url('panel/school/edit/' . $value->id) }}"
+                                                    <a href="{{ url('panel/admin/edit/' . $value->id) }}"
                                                         class="btn btn-default btn-rounded btn-sm"><span
                                                             class="fa fa-pencil"></span></a>
-                                                    <a href="{{ url('panel/school/delete/' . $value->id) }}"
+                                                    <a href="{{ url('panel/admin/delete/' . $value->id) }}"
                                                         class="btn btn-danger btn-rounded btn-sm"
-                                                        onclick="return confirm('Are you sure you want to delete this school?');">
+                                                        onclick="return confirm('Are you sure you want to delete this admin?');">
                                                         <span class="fa fa-times"></span>
                                                     </a>
 
@@ -126,7 +151,7 @@
                                         @endforeach
                                     @else
                                         <tr>
-                                            <td colspan="8">No schools found.</td>
+                                            <td colspan="8">No admins found.</td>
                                         </tr>
                                     @endif
                                 </tbody>
@@ -140,7 +165,7 @@
                     </div>
                 </div>
                 <div class="pull-right">
-                    {{ $getSchool->appends(request()->except('page'))->links() }}
+                    {{ $getadmin->appends(request()->except('page'))->links() }}
                 </div>
 
             </div>
