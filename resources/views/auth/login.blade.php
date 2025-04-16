@@ -43,6 +43,7 @@
                             <button class="btn btn-info btn-block">Log In</button>
                         </div>
                     </div>
+                    
                     </form>
                 </div>
                 <div class="login-footer">

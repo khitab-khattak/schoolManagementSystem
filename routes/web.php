@@ -16,6 +16,10 @@ Route::get('/logout',[AuthController::class, 'logout']);
 
 Route::group(['middleware'=>'common'],function(){
     Route::get('panel/dashboard',[DashboardController::class, 'dashboard']);
+    
+});
+
+Route::group(['middleware'=>'admin'],function(){
     Route::get('panel/admin/list',[AdminController::class, 'admin_list']);
     Route::get('panel/admin/create',[AdminController::class, 'create_admin']);
     Route::post('panel/admin/create', [AdminController::class, 'insert_admin']);
@@ -33,3 +37,6 @@ Route::group(['middleware'=>'common'],function(){
 
 });
 
+Route::group(['middleware'=>'school'],function(){
+    
+});
