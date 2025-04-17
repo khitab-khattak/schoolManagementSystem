@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\SchoolController;
 use App\Http\Controllers\backend\AdminController;
+use App\Http\Controllers\backend\TeacherController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,5 +39,10 @@ Route::group(['middleware'=>'admin'],function(){
 });
 
 Route::group(['middleware'=>'school'],function(){
-    
+    Route::get('panel/teacher/list',[TeacherController::class, 'teacher_list']);
+    Route::get('panel/teacher/create',[TeacherController::class, 'create_teacher']);
+    Route::post('panel/teacher/create', [TeacherController::class, 'insert_teacher']);
+    Route::get('panel/teacher/edit/{id}', [TeacherController::class, 'edit_teacher']);
+    Route::post('panel/teacher/edit/{id}', [TeacherController::class, 'update_teacher']);
+    Route::get('panel/teacher/delete/{id}', [TeacherController::class, 'delete_teacher'])->name('teacher.delete');
 });
