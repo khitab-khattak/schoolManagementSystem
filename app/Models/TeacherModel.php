@@ -21,13 +21,17 @@ class TeacherModel extends Model
         if (!empty(request()->get('name'))) {
             $return = $return->where('name', 'LIKE', '%' . request()->get('name') . '%');
         }
+        if (!empty(request()->get('last_name'))) {
+            $return = $return->where('last_name', 'LIKE', '%' . request()->get('last_name') . '%');
+        }
     
         if (!empty(request()->get('email'))) {
             $return = $return->where('email', 'LIKE', '%' . request()->get('email') . '%');
         }
     
-        if (!empty(request()->get('address'))) {
-            $return = $return->where('address', 'LIKE', '%' . request()->get('address') . '%');
+        if (request()->has('gender') && request()->get('gender') !== null) {
+            $gender = request()->get('gender');
+            $return = $return->where('gender', '=', $gender);
         }
     
         // Handle status filtering

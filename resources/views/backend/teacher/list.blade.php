@@ -22,7 +22,7 @@
                 <div class="panel panel-default">
 
                     <div class="panel-heading flex justify-between">
-                        <h3 class="panel-title">Search teacher</h3>
+                        <h3 class="panel-title">Search Teacher</h3>
                     </div>
                     @include('_message')
                     <div class="panel-body">
@@ -36,7 +36,12 @@
                                 <div class="col-md-2">
                                     <label>First Name</label>
                                     <input type="text" class="form-control" name="name" value="{{ request('name') }}"
-                                        placeholder="teacher Name">
+                                        placeholder="First Name">
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Last Name</label>
+                                    <input type="text" class="form-control" name="last_name" value="{{ request('last_name') }}"
+                                        placeholder="Last Name">
                                 </div>
                                 <div class="col-md-2">
                                     <label>Email</label>
@@ -44,9 +49,13 @@
                                         placeholder="Email">
                                 </div>
                                 <div class="col-md-2">
-                                    <label>Address</label>
-                                    <input type="text" class="form-control" name="address"
-                                        value="{{ request('address') }}" placeholder="Address">
+                                    <label>Gender</label>
+                                    <select class="form-control" name="gender">
+                                        <option value="">Select</option>
+                                        <option value="1" {{ request('gender') == '1' ? 'selected' : '' }}>Male</option>
+                                        <option value="0" {{ request('gender') == '0' ? 'selected' : '' }}>Female</option>
+                                    </select>
+                                    
                                 </div>
                                 <div class="col-md-2">
                                     <label>Status</label>

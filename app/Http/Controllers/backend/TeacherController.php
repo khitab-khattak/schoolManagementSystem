@@ -15,7 +15,7 @@ class TeacherController extends Controller
     public function teacher_list()
     {
         $data['getteacher'] = TeacherModel::getteacher();
-        $data['meta_title'] = "teacher List";
+        $data['meta_title'] = "Teacher List";
         return view('backend.teacher.list', $data);
     }
     public function create_teacher()
@@ -28,7 +28,7 @@ class TeacherController extends Controller
     // Validate request
     $request->validate(
         [
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:teachers',
             'password' => 'required|min:4',
         ],
         [
@@ -77,7 +77,7 @@ public function update_teacher(Request $request, $id)
     // Validate request
     $request->validate(
         [
-            'email' => 'email|unique:users,email,' . $id,  // Ensure email is unique except for the current user
+            'email' => 'email|unique:teachers,email,' . $id,  // Ensure email is unique except for the current user
             'password' => 'nullable|min:4',  // Password is optional for update
         ],
         [

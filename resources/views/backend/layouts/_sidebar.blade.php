@@ -27,7 +27,7 @@
 
         <!-- Dashboard Link -->
         <li class="{{ Request::segment(2) == 'dashboard' ? 'active' : '' }}">
-            <a href="/panel/dashboard">
+            <a href="{{url ('/panel/dashboard') }}">
                 <span class="fa fa-desktop"></span>
                 <span class="xn-text">Dashboard</span>
             </a>
@@ -50,9 +50,9 @@
         @endif
        @if (Auth::user()->is_admin==3)
        <li class="{{ Request::segment(2) == 'teacher' ? 'active' : '' }}">
-        <a href="{{ url('panel/teacher/list') }}">
-            <span class="fas fa-user"></span>
-            <span class="xn-text" style="margin-left:15px;">Teacher</span>
+        <a href="{{ url('/panel/teacher/list') }}">
+            <span class="fa fa-user"></span>
+            <span class="xn-text">Teachers</span>
         </a>
     </li>
        @endif
