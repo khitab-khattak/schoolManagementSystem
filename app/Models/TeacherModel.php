@@ -10,7 +10,7 @@ class TeacherModel extends Model
     static function getSingle($id){
         return TeacherModel::find($id);
     }
-    static function getteacher()
+    static function getteacher($user_id, $user_type)
     {
         $return = self::select('*');
     
@@ -43,10 +43,19 @@ class TeacherModel extends Model
             }
             $return = $return->where('status', '=', $status);
         }
+        if($user_type == 3){
+            $return = $return->where('created_by_id','=',$user_id);
+        }
     
-        $return = $return->orderBy('id', 'desc')
-                         ->paginate(10);
+        $return = $return->where('is_admin','=',5)
+        ->orderBy('id', 'desc')
+        ->where('is_admin','=',5)
+        ->paginate(10);
     
         return $return;
+    }
+    public function getCreatedBy()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 }

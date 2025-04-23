@@ -18,7 +18,7 @@ class SchoolMiddleware
     {
         if(!empty(Auth::check()))
         {
-            if(Auth::user()->is_admin ==3)
+            if((Auth::user()->is_admin == 3) || (Auth::user()->is_admin == 1)|| (Auth::user()->is_admin == 2))
             { return $next($request); }
             else{
                 Auth::logout();

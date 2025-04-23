@@ -14,7 +14,7 @@ class TeacherController extends Controller
 {
     public function teacher_list()
     {
-        $data['getteacher'] = TeacherModel::getteacher();
+        $data['getteacher'] = TeacherModel::getteacher(Auth::user()->id, Auth::user()->is_admin);
         $data['meta_title'] = "Teacher List";
         return view('backend.teacher.list', $data);
     }
@@ -52,6 +52,8 @@ class TeacherController extends Controller
     $user->email = trim($request->email);
     $user->password = Hash::make($request->password);
     $user->status = trim($request->status);
+    $user->is_admin =5;
+    $user->created_by_id = Auth::user()->id;
 
     // Handle profile image
     if ($request->hasFile('profile_pic')) {

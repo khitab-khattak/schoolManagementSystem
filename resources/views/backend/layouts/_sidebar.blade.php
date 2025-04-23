@@ -43,12 +43,12 @@
             <!-- School Link -->
             <li class="{{ Request::segment(2) == 'school' ? 'active' : '' }}">
                 <a href="{{ url('panel/school/list') }}">
-                    <span class="fas fa-school"></span>
-                    <span class="xn-text" style="margin-left:15px;">School</span>
+                    <span class="fa fa-school"></span>
+                    <span class="xn-text">School</span>
                 </a>
             </li>
         @endif
-       @if (Auth::user()->is_admin==3)
+       @if (Auth::user()->is_admin==3 || (Auth::user()->is_admin==1 || Auth::user()->is_admin==2))
        <li class="{{ Request::segment(2) == 'teacher' ? 'active' : '' }}">
         <a href="{{ url('/panel/teacher/list') }}">
             <span class="fa fa-user"></span>
