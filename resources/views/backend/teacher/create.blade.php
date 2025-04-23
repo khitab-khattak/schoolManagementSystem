@@ -34,6 +34,24 @@
                                         <div class="panel-body">
                                             @include('_message')
 
+                                            @if (Auth::user()->is_admin==1 || Auth::user()->is_admin==2)
+                                            <div class="form-group">
+                                                <label class="col-md-3 col-xs-12 control-label">School Name<span
+                                                        class="text-red-500">*</span></label>
+                                                <div class="col-md-6 col-xs-12">
+                                                    <select required class="form-control" name="school_id" id="">
+                                                        <option value="1">Select</option>
+                                                        @foreach ($getSchool as $school)
+                                                        <option value="{{ $school->id }}">{{ $school->name}}</option>
+                                                     
+                                                        @endforeach
+                                                       
+                                                    </select>
+                                                </div>
+                                            </div>
+                                                
+                                            @endif
+
                                             <!-- teacher Name -->
                                             <div class="form-group">
                                                 <label class="col-md-3 col-xs-12 control-label">First Name <span

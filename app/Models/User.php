@@ -176,4 +176,11 @@ class User extends Authenticatable
     
         return $return;
     }
+    static public function getSchoolAll(){
+        return  self::select('*')
+        ->where('is_admin', '=', 3)
+        ->where('status', '=', 1)
+        ->orderBy('id', 'desc')
+        ->get();
+    }
 }

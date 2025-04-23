@@ -80,13 +80,14 @@
 
                 </div>
                 <div class="panel panel-default">
-@if (Auth::user()->is_admin==3)
-<div class="panel-heading flex justify-between">
-    <h3 class="panel-title">Teacher List</h3>
-    <a class="btn btn-primary pull-right" href="{{ url('panel/teacher/create') }}">Create teacher</a>
-</div>
-@endif
-                 
+                    @if (Auth::user()->is_admin == 3|| Auth::user()->is_admin == 1||Auth::user()->is_admin == 2)
+                        <div class="panel-heading flex justify-between">
+                            <h3 class="panel-title">Teacher List</h3>
+                            <a class="btn btn-primary pull-right" href="{{ url('panel/teacher/create') }}">Create
+                                teacher</a>
+                        </div>
+                    @endif
+
 
                     <div class="panel-body panel-body-table">
 
@@ -123,12 +124,12 @@
                                             <tr>
                                                 <td class="text-center">{{ $value->id }}</td>
                                                 @if (Auth::user()->is_admin == 1 || Auth::user()->is_admin == 2)
-                                                <td>
-                                                    @if(!empty($value->getCreatedBy))
-                                                    {{ $value->getCreatedBy->name}}
-                                                    @endif
-                                                </td>
-                                            @endif
+                                                    <td>
+                                                        @if (!empty($value->getCreatedBy))
+                                                            {{ $value->getCreatedBy->name }}
+                                                        @endif
+                                                    </td>
+                                                @endif
                                                 <td>
                                                     @if (!empty($value->profile_pic))
                                                         <img src="{{ asset('upload/profile/' . $value->profile_pic) }}"
