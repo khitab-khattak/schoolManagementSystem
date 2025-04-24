@@ -64,7 +64,19 @@
     
        @endif
 
-
+       @if (Auth::user()->is_admin==3)
+       <!-- Layouts Dropdown -->
+       <li class="xn-openable">
+           <a href="#">
+               <span class="fa fa-graduation-cap"></span>
+               
+               <span class="xn-text">Academics</span>
+           </a>
+           <ul>
+               <li><a href="{{ url('panel/class/list') }}">Class</a></li>
+           </ul>
+       </li>
+       @endif
         <!-- Layouts Dropdown -->
         <li class="xn-openable">
             <a href="#">

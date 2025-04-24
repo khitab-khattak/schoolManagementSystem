@@ -6,6 +6,7 @@ use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\SchoolController;
 use App\Http\Controllers\backend\SchoolAdminController;
 use App\Http\Controllers\backend\AdminController;
+use App\Http\Controllers\backend\ClassController;
 use App\Http\Controllers\backend\TeacherController;
 
 Route::get('/', function () {
@@ -22,6 +23,7 @@ Route::group(['middleware'=>'common'],function(){
 });
 
 Route::group(['middleware'=>'admin'],function(){
+    //adminH
     Route::get('panel/admin/list',[AdminController::class, 'admin_list']);
     Route::get('panel/admin/create',[AdminController::class, 'create_admin']);
     Route::post('panel/admin/create', [AdminController::class, 'insert_admin']);
@@ -29,7 +31,7 @@ Route::group(['middleware'=>'admin'],function(){
     Route::post('panel/admin/edit/{id}', [AdminController::class, 'update_admin']);
     Route::get('panel/admin/delete/{id}', [AdminController::class, 'delete_admin'])->name('admin.delete');
 
-
+//school
     Route::get('panel/school/list',[SchoolController::class, 'school_list']);
     Route::get('panel/school/create',[SchoolController::class, 'create_school']);
     Route::post('panel/school/create', [SchoolController::class, 'insert_school']);
@@ -40,17 +42,27 @@ Route::group(['middleware'=>'admin'],function(){
 });
 
 Route::group(['middleware'=>'school'],function(){
+    //teachers
     Route::get('panel/teacher/list',[TeacherController::class, 'teacher_list']);
     Route::get('panel/teacher/create',[TeacherController::class, 'create_teacher']);
     Route::post('panel/teacher/create', [TeacherController::class, 'insert_teacher']);
     Route::get('panel/teacher/edit/{id}', [TeacherController::class, 'edit_teacher']);
     Route::post('panel/teacher/edit/{id}', [TeacherController::class, 'update_teacher']);
     Route::get('panel/teacher/delete/{id}', [TeacherController::class, 'delete_teacher'])->name('teacher.delete');
-
+//school admin
     Route::get('panel/school_admin/list',[SchoolAdminController::class, 'school_admin_list']);
     Route::get('panel/school_admin/create',[SchoolAdminController::class, 'create_school_admin']);
     Route::post('panel/school_admin/create', [SchoolAdminController::class, 'insert_school_admin']);
     Route::get('panel/school_admin/edit/{id}', [SchoolAdminController::class, 'edit_school_admin']);
     Route::post('panel/school_admin/edit/{id}', [SchoolAdminController::class, 'update_school_admin']);
     Route::get('panel/school_admin/delete/{id}', [SchoolAdminController::class, 'delete_school_admin'])->name('school_school_admin.delete');
+
+
+    //class
+    Route::get('panel/class/list',[ClassController::class, 'class_list']);
+    Route::get('panel/class/create',[ClassController::class, 'create_class']);
+    Route::post('panel/class/create', [ClassController::class, 'insert_class']);
+    Route::get('panel/class/edit/{id}', [ClassController::class, 'edit_class']);
+    Route::post('panel/class/edit/{id}', [ClassController::class, 'update_class']);
+    Route::get('panel/class/delete/{id}', [ClassController::class, 'delete_class'])->name('class.delete');
 });
