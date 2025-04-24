@@ -3,13 +3,13 @@
     <!-- START BREADCRUMB -->
     <ul class="breadcrumb">
         <li><a href="#">Home</a></li>
-        <li class="active">Admin</li>
+        <li class="active">school_admin</li>
     </ul>
     <!-- END BREADCRUMB -->
 
     <!-- PAGE TITLE -->
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span>Edit admin</h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span>Edit school_admin</h2>
     </div>
     <!-- END PAGE TITLE -->
 
@@ -33,13 +33,13 @@
                                         <div class="panel-body">
                                             @include('_message')
 
-                                            <!-- admin Name -->
+                                            <!-- school_admin Name -->
                                             <div class="form-group">
                                                 <label class="col-md-3 col-xs-12 control-label">Name<span class="text-red-500">*</span></label>
                                                 <div class="col-md-6 col-xs-12">
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
-                                                        <input name="name" value="{{ old('name',$getadmin->name)  }}"type="text" class="form-control" required />
+                                                        <input name="name" value="{{ old('name',$getschool_admin->name)  }}"type="text" class="form-control" required />
                                                     </div>
                                                 </div>
                                             </div>
@@ -50,8 +50,8 @@
                                                 <div class="col-md-6 col-xs-12">
                                                     <div class="input-group">
                                                         <input name="profile_pic" type="file" class=" form-control  fileinput btn-primary" name="filename" id="filename" title="Browse file"/>
-                                                        @if (!empty($getadmin->profile_pic))
-                                                        <img src="{{ asset('upload/profile/' . $getadmin->profile_pic) }}"
+                                                        @if (!empty($getschool_admin->profile_pic))
+                                                        <img src="{{ asset('upload/profile/' . $getschool_admin->profile_pic) }}"
                                                             width="50" height="50" style="border-radius: 50%;">
                                                     @endif
                                                     </div>
@@ -70,7 +70,7 @@
                                                             <span class="fa fa-envelope"></span>
                                                         </span>
                                                         <input name="email" type="email" class="form-control" 
-                                                               value="{{ old('email', $getadmin->email) }}" required />
+                                                               value="{{ old('email', $getschool_admin->email) }}" required />
                                                     </div>
                                                     @if ($errors->has('email'))
                                                         <div class="text-red-600 mt-1">{{ $errors->first('email') }}</div>
@@ -97,7 +97,7 @@
                                             <div class="form-group">
                                                 <label class="col-md-3 col-xs-12 control-label">Address<span class="text-red-500">*</span></label>
                                                 <div class="col-md-6 col-xs-12">
-                                                    <textarea name="address" class="form-control" required>{{ old('address',$getadmin->address) }}</textarea>
+                                                    <textarea name="address" class="form-control" required>{{ old('address',$getschool_admin->address) }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -106,27 +106,11 @@
                                                 </label>
                                                 <div class="col-md-6 col-xs-12">
                                                     <select required class="form-control" name="status">
-                                                        <option value="1" {{ $getadmin->status == 1 ? 'selected' : '' }}>Active</option>
-                                                        <option value="0" {{ $getadmin->status == 0 ? 'selected' : '' }}>Inactive</option>
+                                                        <option value="1" {{ $getschool_admin->status == 1 ? 'selected' : '' }}>Active</option>
+                                                        <option value="0" {{ $getschool_admin->status == 0 ? 'selected' : '' }}>Inactive</option>
                                                     </select>
                                                 </div>
                                             </div>
-
-
-                                            <div class="form-group">
-                                                <label class="col-md-3 col-xs-12 control-label">
-                                                    Role <span class="text-red-500">*</span>
-                                                </label>
-                                                <div class="col-md-6 col-xs-12">
-                                                    <select required class="form-control" name="is_admin">
-                                                        <option value="1" {{ $getadmin->is_admin == 1 ? 'selected' : '' }}>Super Admin</option>
-                                                        <option value="2" {{ $getadmin->is_admin == 2 ? 'selected' : '' }}>Admin</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            
-
-
                                         </div>
                                         <!-- Center Submit Button -->
                                         <div class="panel-footer d-flex justify-content-center">

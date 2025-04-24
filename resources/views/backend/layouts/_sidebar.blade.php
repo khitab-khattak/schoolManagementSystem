@@ -49,12 +49,19 @@
             </li>
         @endif
        @if (Auth::user()->is_admin==3 || (Auth::user()->is_admin==1 || Auth::user()->is_admin==2))
+       <li class="{{ Request::segment(2) == 'school_admin' ? 'active' : '' }}">
+        <a href="{{ url('/panel/school_admin/list') }}">
+            <span class="fa fa-user"></span>
+            <span class="xn-text">School Admin</span>
+        </a>
+    </li>
        <li class="{{ Request::segment(2) == 'teacher' ? 'active' : '' }}">
         <a href="{{ url('/panel/teacher/list') }}">
             <span class="fa fa-user"></span>
             <span class="xn-text">Teachers</span>
         </a>
     </li>
+    
        @endif
 
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\SchoolController;
+use App\Http\Controllers\backend\SchoolAdminController;
 use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\backend\TeacherController;
 
@@ -45,4 +46,11 @@ Route::group(['middleware'=>'school'],function(){
     Route::get('panel/teacher/edit/{id}', [TeacherController::class, 'edit_teacher']);
     Route::post('panel/teacher/edit/{id}', [TeacherController::class, 'update_teacher']);
     Route::get('panel/teacher/delete/{id}', [TeacherController::class, 'delete_teacher'])->name('teacher.delete');
+
+    Route::get('panel/school_admin/list',[SchoolAdminController::class, 'school_admin_list']);
+    Route::get('panel/school_admin/create',[SchoolAdminController::class, 'create_school_admin']);
+    Route::post('panel/school_admin/create', [SchoolAdminController::class, 'insert_school_admin']);
+    Route::get('panel/school_admin/edit/{id}', [SchoolAdminController::class, 'edit_school_admin']);
+    Route::post('panel/school_admin/edit/{id}', [SchoolAdminController::class, 'update_school_admin']);
+    Route::get('panel/school_admin/delete/{id}', [SchoolAdminController::class, 'delete_school_admin'])->name('school_school_admin.delete');
 });
