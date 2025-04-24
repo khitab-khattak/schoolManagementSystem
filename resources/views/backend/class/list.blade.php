@@ -76,7 +76,7 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Created By</th>
+                                        {{-- <th>Created By</th> --}}
                                         <th>Name</th>
                                         <th>Status</th>
                                         <th>Created Date</th>
@@ -88,7 +88,7 @@
                                         @foreach ($getclass as $value)
                                             <tr id="trow_1">
                                                 <td class="text-center">{{ $value->id }}</td>
-                                                <td class="text-center">{{ $value->getCreatedBy->name }}</td>
+                                                {{-- <td class="text-center">{{ $value->getCreatedBy->name }}</td> --}}
                                                 <td><strong>{{ $value->name }}</strong></td>
                                                 <td>
                                                  @if ($value->status == 1)

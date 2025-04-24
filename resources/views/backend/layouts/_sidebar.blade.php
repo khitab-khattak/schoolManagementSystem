@@ -66,14 +66,23 @@
 
        @if (Auth::user()->is_admin==3)
        <!-- Layouts Dropdown -->
-       <li class="xn-openable">
+       <li class="xn-openable {{ Request::segment(2) == 'class'||'subject' ? 'active' : '' }}">
            <a href="#">
                <span class="fa fa-graduation-cap"></span>
                
                <span class="xn-text">Academics</span>
            </a>
            <ul>
-               <li><a href="{{ url('panel/class/list') }}">Class</a></li>
+            
+               <li class="{{ Request::segment(2) == 'class' ? 'active' : '' }}">
+                <a href="{{ url('panel/class/list') }}"><span class="fa fa-users"></span>Class</a></li>
+
+                <li class="{{ Request::segment(2) == 'subject' ? 'active' : '' }}">
+                    <a href="{{ url('panel/subject/list') }}">
+                        <span class="fa fa-book"></span> Subjects
+                    </a>
+                </li>
+                
            </ul>
        </li>
        @endif
