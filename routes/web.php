@@ -7,6 +7,7 @@ use App\Http\Controllers\backend\SchoolController;
 use App\Http\Controllers\backend\SchoolAdminController;
 use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\backend\ClassController;
+use App\Http\Controllers\backend\SubjectController;
 use App\Http\Controllers\backend\TeacherController;
 
 Route::get('/', function () {
@@ -67,5 +68,10 @@ Route::group(['middleware'=>'school'],function(){
     Route::get('panel/class/delete/{id}', [ClassController::class, 'delete_class'])->name('class.delete');
 
     //subjects
-    Route::get('panel/subject/list',[ClassController::class, 'class_list']);
+    Route::get('panel/subject/list',[SubjectController::class, 'subject_list']);
+    Route::get('panel/subject/create',[SubjectController::class, 'create_subject']);
+    Route::post('panel/subject/create', [SubjectController::class, 'insert_subject']);
+    Route::get('panel/subject/edit/{id}', [SubjectController::class, 'edit_subject']);
+    Route::post('panel/subject/edit/{id}', [SubjectController::class, 'update_subject']);
+    Route::get('panel/subject/delete/{id}', [SubjectController::class, 'delete_subject'])->name('subject.delete');
 });

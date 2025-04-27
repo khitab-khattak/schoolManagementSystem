@@ -52,7 +52,7 @@ class AdminController extends Controller
 
 
         $user->save(); // Don't forget to save the user to the database
-        return redirect('panel/admin/list')->with('success', 'admin Created Successfully');
+        return redirect('panel/admin/list')->with('success', 'Admin Created Successfully');
     }
 
 
