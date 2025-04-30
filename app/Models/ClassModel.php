@@ -49,4 +49,14 @@ class ClassModel extends Model
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
+    static function getclassActive($user_id)
+    {
+        $return = self::select('*')
+        ->where('status','=',1)
+        ->where('created_by_id','=',$user_id)
+        ->orderBy('id', 'desc')
+        ->get();
+    
+        return $return;
+    }
 }

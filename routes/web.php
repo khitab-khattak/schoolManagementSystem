@@ -7,6 +7,7 @@ use App\Http\Controllers\backend\SchoolController;
 use App\Http\Controllers\backend\SchoolAdminController;
 use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\backend\ClassController;
+use App\Http\Controllers\backend\StudentController;
 use App\Http\Controllers\backend\SubjectController;
 use App\Http\Controllers\backend\TeacherController;
 
@@ -74,4 +75,11 @@ Route::group(['middleware'=>'school'],function(){
     Route::get('panel/subject/edit/{id}', [SubjectController::class, 'edit_subject']);
     Route::post('panel/subject/edit/{id}', [SubjectController::class, 'update_subject']);
     Route::get('panel/subject/delete/{id}', [SubjectController::class, 'delete_subject'])->name('subject.delete');
+//students
+    Route::get('panel/student/list',[StudentController::class, 'student_list']);
+    Route::get('panel/student/create',[StudentController::class, 'create_student']);
+    Route::post('panel/student/create', [StudentController::class, 'insert_student']);
+    Route::get('panel/student/edit/{id}', [StudentController::class, 'edit_student']);
+    Route::post('panel/student/edit/{id}', [StudentController::class, 'update_student']);
+    Route::get('panel/student/delete/{id}', [StudentController::class, 'delete_student'])->name('student.delete');
 });

@@ -61,12 +61,18 @@
             <span class="xn-text">Teachers</span>
         </a>
     </li>
+    <li class="{{ Request::segment(2) == 'student' ? 'active' : '' }}">
+        <a href="{{ url('/panel/student/list') }}">
+            <span class="fa fa-user"></span>
+            <span class="xn-text">Students</span>
+        </a>
+    </li>
     
        @endif
 
        @if (Auth::user()->is_admin==3)
        <!-- Layouts Dropdown -->
-       <li class="xn-openable {{ Request::segment(2) == 'class'||'subject' ? 'active' : '' }}">
+       <li class="xn-openable {{ Request::segment(2) == 'class'||'subject'||student ? 'active' : '' }}">
            <a href="#">
                <span class="fa fa-graduation-cap"></span>
                
@@ -80,6 +86,11 @@
                 <li class="{{ Request::segment(2) == 'subject' ? 'active' : '' }}">
                     <a href="{{ url('panel/subject/list') }}">
                         <span class="fa fa-book"></span> Subjects
+                    </a>
+                </li>
+                <li class="{{ Request::segment(2) == 'student' ? 'active' : '' }}">
+                    <a href="{{ url('panel/student/list') }}">
+                        <span class="fa fa-book"></span> Students
                     </a>
                 </li>
                 
