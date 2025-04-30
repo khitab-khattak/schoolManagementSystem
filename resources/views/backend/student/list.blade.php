@@ -89,7 +89,6 @@
                                     @if (Auth::user()->is_admin == 1 || Auth::user()->is_admin == 2)
                                         <th>School Name</th>
                                     @endif
-                                    <th>School Name</th>
                                     <th>Profile</th>
                                     <th>First Name</th>
                                     <th>Last Name</th>

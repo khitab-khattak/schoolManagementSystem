@@ -20,6 +20,28 @@ class StudentController extends Controller
         $data['meta_title'] = "student List";
         return view('backend.student.list', $data);
     }
+    public function getClass(Request $request)
+    {
+        $getClass = ClassModel::getclassActive($request->school_id);
+    
+        $html = '<option value="">Select</option>';
+        $message = '';
+    
+        if ($getClass->isEmpty()) {
+            $html .= '<option value="">No class available</option>';
+            $message = 'No class found in this school.';
+        } else {
+            foreach ($getClass as $class) {
+                $html .= '<option value="'.$class->id.'">'.$class->name.'</option>';
+            }
+        }
+    
+        return response()->json([
+            'success' => $html,
+            'message' => $message
+        ]);
+    }
+    
     public function create_student()
     {
         $data['getClass'] = ClassModel::getClassActive(Auth::user()->id);
@@ -41,7 +63,12 @@ class StudentController extends Controller
             ]
         );
         $student = new Student();
-        $student->created_by_id = Auth::user()->id;
+        if(Auth::user()->is_admin==1 || Auth::user()->is_admin==2){
+            $student->created_by_id = $request->school_id;
+        }
+        else{
+            $student->created_by_id = Auth::user()->id;
+        }
         $student->name = $request->name;
         $student->last_name = $request->last_name;
         $student->admission_number = $request->admission_number;
@@ -143,18 +170,42 @@ class StudentController extends Controller
         return redirect('panel/student/list')->with('success', 'Student updated successfully');
     }
     
+//working ai
 
-
-
+    // public function edit_student($id)
+    // {
+    //     $student = Student::getSingle($id);
+    
+    //     // If student was created by admin or school
+    //     $school_id = $student->created_by_id;
+    
+    //     // Get classes for the student's school
+    //     $getClass = ClassModel::getClassActive($school_id);
+    
+    //     $data = [
+    //         'getstudent' => $student,
+    //         'getClass' => $getClass,
+    //         'getSchool' => User::getSchoolAll(),
+    //         'selectedSchoolId' => $school_id,
+    //         'meta_title' => "Edit Student",
+    //     ];
+    
+    //     return view('backend.student.edit', $data);
+    // }
+    
 
     public function edit_student($id)
     {
-        $data['getstudent'] = Student::getSingle($id);
-        $data['getClass']= ClassModel::getClassActive(Auth::user()->id);
-        $data['getSchool']=User::getSchoolAll();
+        $getstudent = Student::getSingle($id);
+    
+        $data['getstudent'] = $getstudent;
+        $data['getClass'] = ClassModel::getClassActive($getstudent->created_by_id);
+        $data['getSchool'] = User::getSchoolAll();
         $data['meta_title'] = "Edit";
+    
         return view('backend.student.edit', $data);
     }
+    
 
 
     public function delete_student($id)

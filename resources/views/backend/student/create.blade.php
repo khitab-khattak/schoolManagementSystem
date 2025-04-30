@@ -121,17 +121,21 @@
                                             
 
                                             <div class="form-group">
-                                                <label class="col-md-3 col-xs-12 control-label">Class<span
-                                                        class="text-red-500">*</span></label>
+                                                <label class="col-md-3 col-xs-12 control-label">
+                                                    Class <span class="text-red-500">*</span>
+                                                </label>
                                                 <div class="col-md-6 col-xs-12">
                                                     <select required class="form-control getClass" name="class_id" id="">
                                                         <option>Select</option>  
                                                         @foreach ($getClass as $class)
-                                                        <option value="{{ $class->id }}">{{ $class->name}}</option>
+                                                            <option value="{{ $class->id }}">{{ $class->name }}</option>
                                                         @endforeach
                                                     </select>
+                                                    <!-- Message placeholder -->
+                                                    <div class="classMessage mt-2 text-sm text-red-600"></div>
                                                 </div>
                                             </div>
+                                            
                                             
 
                                             <div class="form-group">
@@ -357,21 +361,33 @@
 @endsection
 
 @section('script')
-    <script type="text/javascript">
-    $('body').delegate('.schoolChange','change',function(){
+<script type="text/javascript">
+    $('body').delegate('.schoolChange', 'change', function () {
         var school_id = $(this).val();
         $.ajax({
-            url:"{{ url('panel/student/getclass')}}",
-            type:"POST",
-            data:{
-                "_token":"{{ csrf_token() }}",
-                school_id:school_id,
+            url: "{{ url('panel/student/getclass') }}",
+            type: "POST",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                school_id: school_id,
             },
-            dataType:"json",
-            success:function(response){
+            dataType: "json",
+            success: function (response) {
+                $('.getClass').html(response.success);
 
+                if (response.message) {
+                    $('.classMessage').html('<span style="color:red;">' + response.message + '</span>');
+                    $('.getClass').prop('disabled', true);
+                } else {
+                    $('.classMessage').html('');
+                    $('.getClass').prop('disabled', false);
+                }
             },
+            error: function () {
+                alert('An error occurred while fetching classes.');
+            }
         });
-    })
-    </script>
+    });
+</script>
 @endsection
+
