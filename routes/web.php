@@ -10,6 +10,7 @@ use App\Http\Controllers\backend\ClassController;
 use App\Http\Controllers\backend\StudentController;
 use App\Http\Controllers\backend\SubjectController;
 use App\Http\Controllers\backend\TeacherController;
+use App\Http\Controllers\backend\ParentsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -83,4 +84,12 @@ Route::group(['middleware'=>'school'],function(){
     Route::post('panel/student/edit/{id}', [StudentController::class, 'update_student']);
     Route::get('panel/student/delete/{id}', [StudentController::class, 'delete_student'])->name('student.delete');
     Route::post('panel/student/getclass', [StudentController::class, 'getClass']);
+
+    //parents
+    Route::get('panel/parents/list',[ParentsController::class, 'parents_list']);
+    Route::get('panel/parents/create',[ParentsController::class, 'create_parents']);
+    Route::post('panel/parents/create', [ParentsController::class, 'insert_parents']);
+    Route::get('panel/parents/edit/{id}', [ParentsController::class, 'edit_parents']);
+    Route::post('panel/parents/edit/{id}', [ParentsController::class, 'update_parents']);
+    Route::get('panel/parents/delete/{id}', [ParentsController::class, 'delete_parents'])->name('parents.delete');
 });

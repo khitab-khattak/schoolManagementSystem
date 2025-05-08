@@ -67,6 +67,12 @@
             <span class="xn-text">Students</span>
         </a>
     </li>
+    <li class="{{ Request::segment(2) == 'parents' ? 'active' : '' }}">
+        <a href="{{ url('/panel/parents/list') }}">
+            <span class="fa fa-user"></span>
+            <span class="xn-text">Parents</span>
+        </a>
+    </li>
     
        @endif
 
@@ -90,6 +96,11 @@
                 </li>
                 <li class="{{ Request::segment(2) == 'student' ? 'active' : '' }}">
                     <a href="{{ url('panel/student/list') }}">
+                        <span class="fa fa-book"></span> Students
+                    </a>
+                </li>
+                <li class="{{ Request::segment(2) == 'parents' ? 'active' : '' }}">
+                    <a href="{{ url('panel/parents/list') }}">
                         <span class="fa fa-book"></span> Students
                     </a>
                 </li>
