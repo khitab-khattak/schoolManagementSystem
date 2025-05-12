@@ -153,6 +153,11 @@
                                             onclick="return confirm('Are you sure you want to delete this parents?');">
                                             <span class="fa fa-times"></span>
                                         </a>
+                                        <a href="{{ url('panel/parents/my_student/' . $value->id) }}"
+                                            class="btn btn-primary  btn-sm"
+                                           >
+                                            My students</span>
+                                        </a>
                                     </td>
                                     </tr>
                                     @endforeach

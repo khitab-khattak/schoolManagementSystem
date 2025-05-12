@@ -60,9 +60,9 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span
                                                                 class="fa fa-pencil"></span></span>
-                                                        <input name="name" value="{{ old('name') }}"type="text"
+                                                        <input name="first_name" value="{{ old('first_name') }}"type="text"
                                                             class="form-control" required />
-                                                            <div>{{ $errors->first('name')}}</div>
+                                                            <div>{{ $errors->first('first_name')}}</div>
                                                     </div>
                                                 </div>
                                             </div>

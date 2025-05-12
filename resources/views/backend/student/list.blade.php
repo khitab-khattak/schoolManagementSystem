@@ -128,7 +128,7 @@
                                                 @endif
                                             </td>
 
-                                            <td>{{ $value->name }}</td>
+                                            <td>{{ $value->first_name }}</td>
                                             <td>{{ $value->last_name }}</td>
                                             <td>{{ $value->admission_number }}</td>
                                             <td>{{ $value->roll_number }}</td>

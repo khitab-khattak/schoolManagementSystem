@@ -23,8 +23,8 @@ static function getStudent($user_id, $user_type)
             $return = $return->where('id', '=', request()->get('id'));
         }
     
-        if (!empty(request()->get('name'))) {
-            $return = $return->where('name', 'LIKE', '%' . request()->get('name') . '%');
+        if (!empty(request()->get('first_name'))) {
+            $return = $return->where('first_name', 'LIKE', '%' . request()->get('first_name') . '%');
         }
         if (!empty(request()->get('last_name'))) {
             $return = $return->where('last_name', 'LIKE', '%' . request()->get('last_name') . '%');
@@ -58,10 +58,20 @@ static function getStudent($user_id, $user_type)
     
         return $return;
     }
+    static function getparentsMystudent($parent_id)
+    {
+        $return = self::select('*');
+        $return = $return->where('parent_id', '=', $parent_id);
+    
+        return $return->orderBy('id', 'desc')->paginate(10);
+    }
     public function getClass()
     {
         return $this->belongsTo(ClassModel::class, 'class_id');
     }
+    public function getParentData(){
+        return $this->belongsTo(Parents::class,'parent_id');
+       }
 
     public function getCreatedBy()
     {

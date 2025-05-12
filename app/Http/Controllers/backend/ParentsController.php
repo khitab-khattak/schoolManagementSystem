@@ -4,6 +4,7 @@ namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Parents;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -14,10 +15,30 @@ class ParentsController extends Controller
 {
     public function parents_list()
     {
-
         $data['getparents'] = Parents::getparents(Auth::user()->id, Auth::user()->is_admin);
-        $data['meta_title'] = "parents List";
+        $data['meta_title'] = "Parent";
         return view('backend.parents.list', $data);
+    }
+
+    public function my_student($parent_id){
+        $data['getMyStudent'] = Student::getStudent(Auth::user()->id,Auth::user()->is_admin);
+        $data['getRecord'] = Student::getparentsMystudent($parent_id);
+        $data['meta_title'] = "Parent";
+        $data['parent_id']=$parent_id;
+        return view('backend.parents.my_student', $data);
+    }
+
+    public function add_student($student_id,$parent_id){
+        $user =Student::getSingle($student_id);
+        $user->parent_id = $parent_id;
+        $user->save();
+        return redirect()->back()->with('success','Student Added successfully');
+    }
+    public function mystudent_delete($student_id){
+        $user = Student::getSingle($student_id);
+        $user->parent_id = null;
+        $user->save();
+        return redirect()->back()->with('success','Student removed successfully');
     }
     public function create_parents()
     {
@@ -121,7 +142,7 @@ class ParentsController extends Controller
             $filename = strtolower($randomStr) . '.' . $ext;
             $file->move(public_path('upload/profile/'), $filename);
 
-            // Update profile pic in the database
+            // Update profile pic in the database 
             $user->profile_pic = $filename;
         }
 

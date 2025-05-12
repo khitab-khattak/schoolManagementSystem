@@ -92,4 +92,7 @@ Route::group(['middleware'=>'school'],function(){
     Route::get('panel/parents/edit/{id}', [ParentsController::class, 'edit_parents']);
     Route::post('panel/parents/edit/{id}', [ParentsController::class, 'update_parents']);
     Route::get('panel/parents/delete/{id}', [ParentsController::class, 'delete_parents'])->name('parents.delete');
+    Route::get('panel/parents/my_student/{id}', [ParentsController::class, 'my_student']);
+    Route::get('panel/parents/add_student/{student_id}/{parent_id}', [ParentsController::class, 'add_student']);
+    Route::get('panel/parents/mystudent_delete/{student_id}', [ParentsController::class, 'mystudent_delete']);
 });

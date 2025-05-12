@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('parents', function (Blueprint $table) {
             $table->id();
+            $table->integer('parent_id')->default(0);
             $table->string('first_name');
             $table->string('last_name');
             $table->enum('gender', ['0', '1']); // 0 = Female, 1 = Male

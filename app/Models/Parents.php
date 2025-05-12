@@ -53,6 +53,9 @@ class Parents extends Model
     
         return $return;
     }
+
+  
+    
     public function getCreatedBy()
     {
         return $this->belongsTo(User::class, 'created_by_id');
