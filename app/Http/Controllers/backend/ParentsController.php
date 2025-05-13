@@ -67,7 +67,7 @@ class ParentsController extends Controller
         else{
             $user->created_by_id = Auth::user()->id;
         }
-        $user->first_name = trim($request->first_name);
+        $user->name = trim($request->name);
         $user->last_name = trim($request->last_name);
         $user->gender = $request->gender;
         $user->occupation = $request->occupation;
@@ -114,7 +114,7 @@ class ParentsController extends Controller
         $user = Parents::findOrFail($id);
 
         // Update fields with request data
-        $user->first_name = trim($request->first_name);
+        $user->name = trim($request->name);
         $user->last_name = trim($request->last_name);
         $user->gender = $request->gender;
         $user->occupation = $request->occupation;

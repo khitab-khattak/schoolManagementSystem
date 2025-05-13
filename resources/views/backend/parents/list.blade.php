@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label>First Name</label>
-                                    <input type="text" class="form-control" name="first_name" value="{{ request('first_name') }}"
+                                    <input type="text" class="form-control" name="name" value="{{ request('name') }}"
                                         placeholder="First Name">
                                 </div>
                                 <div class="col-md-2">
@@ -128,7 +128,7 @@
                                                 height="50" style="border-radius: 50%;">
                                         @endif
                                     </td>
-                                    <td>{{ $value->first_name }}</td>
+                                    <td>{{ $value->name }}</td>
                                     <td>{{ $value->last_name }}</td>
                                     <td>{{ $value->gender == 1 ? 'Male' : 'Female' }}</td>
                                     <td>{{ $value->occupation }}</td>

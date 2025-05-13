@@ -15,28 +15,32 @@ class AuthController extends Controller
     }
     public function auth_login(Request $request)
     {
-        // Try logging in as teacher
+        // Logout all guards first
+        Auth::guard('web')->logout();
+        Auth::guard('teacher')->logout();
+        Auth::guard('student')->logout();
+        Auth::guard('parent')->logout();
+    
+        // Now attempt login
         if (Auth::guard('teacher')->attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect('teacher/dashboard');
         }
     
-        // Try logging in as student
         if (Auth::guard('student')->attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect('student/dashboard');
         }
     
-        // Try logging in as parent
         if (Auth::guard('parent')->attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect('parent/dashboard');
         }
     
-        // Default login (web guard)
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect('panel/dashboard');
         }
     
         return redirect()->back()->with('error', 'Please enter correct email and password');
     }
+    
     
     
     public function forgot(){

@@ -28,8 +28,8 @@
                             <div class="form-group">
                                 <label class="col-md-3 control-label">First Name *</label>
                                 <div class="col-md-6">
-                                    <input name="first_name" type="text" class="form-control" required
-                                        value="{{ old('first_name', $getstudent->first_name) }}">
+                                    <input name="name" type="text" class="form-control" required
+                                        value="{{ old('name', $getstudent->name) }}">
                                 </div>
                             </div>
 

@@ -58,7 +58,7 @@
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><span
                                                                 class="fa fa-pencil"></span></span>
-                                                        <input name="first_name" type="text" class="form-control"
+                                                        <input name="name" type="text" class="form-control"
                                                             required />
                                                     </div>
                                                 </div>

@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label>First Name</label>
-                                    <input type="text" class="form-control" name="first_name" value="{{ request('first_name') }}"
+                                    <input type="text" class="form-control" name="name" value="{{ request('name') }}"
                                         placeholder="First Name">
                                 </div>
                                 <div class="col-md-2">
@@ -83,7 +83,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if (!empty(Request::get('id')) || !empty(Request::get('first_name')) || !empty(Request::get('last_name')) || !empty(Request::get('email')))
+                                    @if (!empty(Request::get('id')) || !empty(Request::get('name')) || !empty(Request::get('last_name')) || !empty(Request::get('email')))
                                         @if(count($getMyStudent) > 0)
                                             @foreach ($getMyStudent as $value)
                                                 <tr>
@@ -93,13 +93,13 @@
                                                             <img src="{{ asset('upload/profile/' . $value->profile_pic) }}" width="50" height="50" style="border-radius: 50%;">
                                                         @endif
                                                     </td>
-                                                    <td>{{ $value->first_name }}</td>
+                                                    <td>{{ $value->name }}</td>
                                                     <td>{{ $value->last_name }}</td>
                                                     <td>{{ $value->email }}</td>
                                                     <td>{{ $value->gender == 1 ? 'Male' : 'Female' }}</td>
                                                     <td>
                                                         @if ($value->getParentData)
-                                                            {{ $value->getParentData->first_name }} {{ $value->getParentData->last_name }}
+                                                            {{ $value->getParentData->name }} {{ $value->getParentData->last_name }}
                                                         @endif
                                                     </td>
                                                     <td>{{ $value->created_at->format('d M, Y h:i A') }}</td>
@@ -165,7 +165,7 @@
                                                         N/A
                                                     @endif
                                                 </td>
-                                                <td>{{ $value->first_name }}</td>
+                                                <td>{{ $value->name }}</td>
                                                 <td>{{ $value->last_name }}</td>
                                                 <td>{{ $value->email }}</td>
                                                 <td>{{ $value->gender == 1 ? 'Male' : 'Female' }}</td>

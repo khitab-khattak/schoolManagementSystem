@@ -71,7 +71,7 @@ class StudentController extends Controller
             $student->created_by_id = Auth::user()->id;
         }
         
-        $student->first_name = $request->first_name;
+        $student->name = $request->name;
         $student->last_name = $request->last_name;
         $student->admission_number = $request->admission_number;
         $student->roll_number = $request->roll_number;
@@ -131,7 +131,7 @@ class StudentController extends Controller
         $student = Student::findOrFail($id);
         
         // Update fields
-        $student->first_name = trim($request->first_name);
+        $student->name = trim($request->name);
         $student->last_name = trim($request->last_name);
         $student->admission_number = $request->admission_number;
         $student->roll_number = $request->roll_number;
