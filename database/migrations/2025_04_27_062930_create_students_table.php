@@ -29,6 +29,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('profile_pic')->nullable();
             $table->tinyInteger('status')->default(1); // 1 = Active, 0 = Inactive
+            $table->integer('is_admin')->default(0);
             $table->timestamps();
         });
     }

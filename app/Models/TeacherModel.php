@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class TeacherModel extends Model
+class TeacherModel extends Authenticatable
 {
     protected $table = 'teachers';
     static function getSingle($id){

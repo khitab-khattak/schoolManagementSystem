@@ -16,14 +16,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/login',[AuthController::class, 'login']);
-Route::post('/login',[AuthController::class, 'auth_login']);
+Route::post('/login',[AuthController::class, 'auth_login'])->name('auth.login');
 Route::get('/forgot',[AuthController::class, 'forgot']);
 Route::get('/logout',[AuthController::class, 'logout']);
-
-Route::group(['middleware'=>'common'],function(){
-    Route::get('panel/dashboard',[DashboardController::class, 'dashboard']);
-    
+Route::group(['middleware' => 'common'], function () {
+;
 });
+
+
 
 Route::group(['middleware'=>'admin'],function(){
     //adminH
@@ -46,6 +46,7 @@ Route::group(['middleware'=>'admin'],function(){
 
 Route::group(['middleware'=>'school'],function(){
     //teachers
+    Route::get('panel/dashboard',[DashboardController::class, 'dashboard']);
     Route::get('panel/teacher/list',[TeacherController::class, 'teacher_list']);
     Route::get('panel/teacher/create',[TeacherController::class, 'create_teacher']);
     Route::post('panel/teacher/create', [TeacherController::class, 'insert_teacher']);
@@ -95,4 +96,15 @@ Route::group(['middleware'=>'school'],function(){
     Route::get('panel/parents/my_student/{id}', [ParentsController::class, 'my_student']);
     Route::get('panel/parents/add_student/{student_id}/{parent_id}', [ParentsController::class, 'add_student']);
     Route::get('panel/parents/mystudent_delete/{student_id}', [ParentsController::class, 'mystudent_delete']);
+
+   
+});
+Route::group(['middleware'=>'teacher'], function(){
+    Route::get('teacher/dashboard',[DashboardController::class, 'dashboard']);
+});
+Route::group(['middleware'=>'student'], function(){
+    Route::get('student/dashboard',[DashboardController::class, 'dashboard']);
+});
+Route::group(['middleware'=>'parent'], function(){
+    Route::get('parent/dashboard',[DashboardController::class, 'dashboard']);
 });

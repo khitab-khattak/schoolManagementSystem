@@ -76,6 +76,7 @@ class ParentsController extends Controller
         $user->email = trim($request->email);
         $user->password = Hash::make($request->password);
         $user->status = trim($request->status);
+        $user->is_admin = 7;
 
         // Handle profile image
         if ($request->hasFile('profile_pic')) {

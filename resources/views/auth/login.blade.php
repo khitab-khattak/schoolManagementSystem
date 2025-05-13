@@ -22,7 +22,7 @@
                 <div class="login-logo"></div>
                 <div class="login-body">
                     <div class="login-title"><strong>Log In</strong> to your account</div>
-                    <form action="" class="form-horizontal" method="post">
+                    <form action="{{ route('auth.login') }}" class="form-horizontal" method="post">
                      @csrf
                      @include('_message')
                     <div class="form-group">

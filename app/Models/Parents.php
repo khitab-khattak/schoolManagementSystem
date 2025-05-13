@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
-class Parents extends Model
+class Parents extends User
 {
     protected $table = 'parents';
     static function getSingle($id){

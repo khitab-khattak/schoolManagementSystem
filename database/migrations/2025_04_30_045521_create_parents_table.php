@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('profile_pic')->nullable();
             $table->boolean('status')->default(1);
+            $table->integer('is_admin')->default(0);
             $table->integer('created_by_id')->default(0);
             $table->timestamps();
         });

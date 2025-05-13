@@ -51,24 +51,26 @@ class StudentController extends Controller
     }
     public function insert_student(Request $request)
     {
-
         // Validate request
         $request->validate(
             [
                 'email' => 'required|email|unique:students',
+                'admission_number' => 'required|unique:students', // Add unique validation for admission_number
                 'password' => 'required|min:4',
             ],
             [
                 'email.unique' => 'This email is already registered. Please try another one.',
+                'admission_number.unique' => 'This admission number is already taken. Please try another one.', // Custom error message for admission_number
             ]
         );
+        
         $student = new Student();
-        if(Auth::user()->is_admin==1 || Auth::user()->is_admin==2){
+        if (Auth::user()->is_admin == 1 || Auth::user()->is_admin == 2) {
             $student->created_by_id = $request->school_id;
-        }
-        else{
+        } else {
             $student->created_by_id = Auth::user()->id;
         }
+        
         $student->first_name = $request->first_name;
         $student->last_name = $request->last_name;
         $student->admission_number = $request->admission_number;
@@ -88,8 +90,8 @@ class StudentController extends Controller
         $student->email = trim($request->email);
         $student->password = Hash::make($request->password);
         $student->status = trim($request->status);
-       
-
+        $student->is_admin = 6;
+        
         // Handle profile image
         if ($request->hasFile('profile_pic')) {
             $file = $request->file('profile_pic');
@@ -99,12 +101,13 @@ class StudentController extends Controller
             $file->move(public_path('upload/profile/'), $filename);
             $student->profile_pic = $filename;
         }
-
-        // Save the user
+        
+        // Save the student
         $student->save();
-
-        return redirect('panel/student/list')->with('success', 'student Created Successfully');
+        
+        return redirect('panel/student/list')->with('success', 'Student Created Successfully');
     }
+    
 
 
 
@@ -114,17 +117,19 @@ class StudentController extends Controller
         // Validate request
         $request->validate(
             [
-                'email' => 'email|unique:students,email,' . $id,
+                'email' => 'email|unique:students,email,' . $id, // Check for email uniqueness, excluding current student
+                'admission_number' => 'required|unique:students,admission_number,' . $id, // Ensure admission_number is unique, excluding current student
                 'password' => 'nullable|min:4',
             ],
             [
                 'email.unique' => 'This email is already registered. Please try another one.',
+                'admission_number.unique' => 'This admission number is already taken. Please try another one.', // Custom error message for admission_number
             ]
         );
-    
+        
         // Find student
         $student = Student::findOrFail($id);
-    
+        
         // Update fields
         $student->first_name = trim($request->first_name);
         $student->last_name = trim($request->last_name);
@@ -144,18 +149,19 @@ class StudentController extends Controller
         $student->permanent_address = trim($request->permanent_address);
         $student->email = trim($request->email);
         $student->status = trim($request->status);
-    
+        
         // Update password only if provided
         if (!empty($request->password)) {
             $student->password = Hash::make($request->password);
         }
-    
+        
         // Profile image
         if ($request->hasFile('profile_pic')) {
+            // Delete old profile image if exists
             if ($student->profile_pic && file_exists(public_path('upload/profile/' . $student->profile_pic))) {
                 unlink(public_path('upload/profile/' . $student->profile_pic));
             }
-    
+        
             $file = $request->file('profile_pic');
             $randomStr = date('YmdHis') . Str::random(20);
             $ext = $file->getClientOriginalExtension();
@@ -163,12 +169,13 @@ class StudentController extends Controller
             $file->move(public_path('upload/profile/'), $filename);
             $student->profile_pic = $filename;
         }
-    
+        
         // Save changes
         $student->save();
-    
+        
         return redirect('panel/student/list')->with('success', 'Student updated successfully');
     }
+    
     
 //working ai
 
