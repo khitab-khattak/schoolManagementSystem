@@ -176,4 +176,37 @@ class ParentsController extends Controller
 
         return redirect()->back()->with('success', 'parents deleted successfully.');
     }
+
+    public function ChangePassword(){
+        $data['meta_title']='Change Parent Password';
+        return view('backend/passwordChange/parent_change_password',$data);
+    }
+   
+    
+    public function UpdatePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:5|confirmed', // requires new_password_confirmation
+        ]);
+    
+        // Get the currently authenticated user (teacher)
+        $user = Parents::find(Auth::guard('parent')->id());
+    
+        // Check if the user exists
+        if (!$user) {
+            return back()->with('error', 'Unauthorized access.');
+        }
+    
+        // Check current password
+        if (!Hash::check($request->old_password, $user->password)) {
+            return back()->with('error', 'Current password is incorrect.');
+        }
+    
+        // Update to new password
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+    
+        return back()->with('success', 'Password updated successfully.');
+    }
 }

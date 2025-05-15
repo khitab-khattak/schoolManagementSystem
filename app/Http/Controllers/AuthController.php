@@ -38,8 +38,10 @@ class AuthController extends Controller
             return redirect('panel/dashboard');
         }
     
-        return redirect()->back()->with('error', 'Please enter correct email and password');
+        // If login attempt fails, redirect to login page with error message
+        return redirect('/login')->with('error', 'Please enter correct email and password');
     }
+    
     
     
     
@@ -48,6 +50,6 @@ class AuthController extends Controller
     }
     public function logout(){
         Auth::logout();
-        return redirect('/login');
-    }
+        return redirect()->route('login');  // This will ensure they go to /login
+    }    
 }
