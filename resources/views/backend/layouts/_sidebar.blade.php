@@ -67,6 +67,9 @@
             <li class="{{ Request::segment(2) == 'change-password' ? 'active' : '' }}">
                 <a href="{{ url('student/change-password') }}"><span class="fa fa-key"></span> Change Password</a>
             </li>
+            <li class="{{ Request::segment(2) == 'my-account' ? 'active' : '' }}">
+                <a href="{{ url('student/my-account') }}"><span class="fa fa-user"></span> My Account</a>
+            </li>
         @elseif ($currentGuard == 'teacher')
             {{-- Teacher-specific sidebar --}}
             <li>
@@ -76,6 +79,9 @@
             </li>
             <li class="{{ Request::segment(2) == 'change-password' ? 'active' : '' }}">
                 <a href="{{ url('teacher/change-password') }}"><span class="fa fa-key"></span> Change Password</a>
+            </li>
+            <li class="{{ Request::segment(2) == 'my-account' ? 'active' : '' }}">
+                <a href="{{ url('teacher/my-account') }}"><span class="fa fa-user"></span> My Account</a>
             </li>
         @elseif ($currentGuard == 'parent')
             {{-- Parent-specific sidebar --}}
@@ -87,6 +93,9 @@
             <li class="{{ Request::segment(2) == 'change-password' ? 'active' : '' }}">
                 <a href="{{ url('parent/change-password') }}"><span class="fa fa-key"></span> Change Password</a>
             </li>
+            <li class="{{ Request::segment(2) == 'my-account' ? 'active' : '' }}">
+                <a href="{{ url('parent/my-account') }}"><span class="fa fa-user"></span> My Account</a>
+            </li>
             {{-- Add more parent-specific links here --}}
         @endif
         {{-- Web/admin-specific sidebar --}}
@@ -96,7 +105,12 @@
                     <span class="fa fa-tachometer-alt"></span> Dashboard
                 </a>
             </li>
+            <li class="{{ Request::segment(2) == 'my-account' ? 'active' : '' }}">
+                <a href="{{ url('panel/my-account') }}"><span class="fa fa-user"></span> My Account</a>
+            </li>
         @endif
+
+     
 
 
 

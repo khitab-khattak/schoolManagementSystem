@@ -19,7 +19,7 @@ class AuthCommonMiddleware
         if(!empty(Auth::check())){
             return $next($request);
         }else{
-            return redirect(url(''));
+            return redirect(url('/login'));
         }
         
     }

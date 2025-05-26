@@ -13,6 +13,53 @@ use Illuminate\Support\Str;
 
 class ParentsController extends Controller
 {
+    public function myAccount()
+    {
+        $user = Auth::guard('parent')->user();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Unauthorized access.');
+        }
+    
+        $data['meta_title'] = "My Account";
+        $data['getRecordAll'] = Parents::getSingle($user->id);
+        return view('backend.profileChange.parentProfile', $data);
+    }
+
+    public function UpdateAccount(Request $request, $id)
+    {
+      
+        $user = Parents::getSingle($id);
+    
+        // Basic validation
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+       
+    
+        $user->name = trim($request->name);
+        $user->last_name = trim($request->last_name);
+
+    
+        if (!empty($request->file('profile_pic'))) {
+            $file = $request->file('profile_pic');
+            $randomStr = date('YmdHis') . Str::random(20);
+            $ext = $file->getClientOriginalExtension(); // Get only the file extension
+            $filename = strtolower($randomStr) . '.' . $ext;
+            $file->move(public_path('upload/profile/'), $filename); // Always good to use public_path
+
+            $user->profile_pic = $filename;
+        }
+
+
+        $user->save(); 
+    
+        return redirect()->back()->with('success', 'Account Updated Successfully');
+    }
+
+
+
+
     public function parents_list()
     {
         $data['getparents'] = Parents::getparents(Auth::user()->id, Auth::user()->is_admin);

@@ -12,7 +12,71 @@ use Illuminate\Support\Str;
 use App\Models\User; // Import the User model
 
 class StudentController extends Controller
+
 {
+
+
+    public function myAccount()
+{
+    $user = Auth::guard('student')->user();
+    if (!$user) {
+        return redirect()->back()->with('error', 'Unauthorized access.');
+    }
+
+    $data['meta_title'] = "My Account";
+    $data['getRecordAll'] = Student::getSingle($user->id);
+    return view('backend.profileChange.studentProfile', $data);
+}
+  
+    
+
+
+public function UpdateAccount(Request $request, $id)
+{
+    // Make sure the logged-in student is the one updating their account
+    $authStudent = Auth::guard('student')->user();
+    if (!$authStudent || $authStudent->id != $id) {
+        return redirect()->back()->with('error', 'Unauthorized access.');
+    }
+
+    $user = Student::find($id);
+    if (!$user) {
+        return redirect()->back()->with('error', 'User not found.');
+    }
+
+    // Validation
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    $user->name = trim($request->name);
+    $user->last_name = trim($request->last_name);
+
+    // Handle profile pic upload if present
+    if ($request->hasFile('profile_pic')) {
+        $file = $request->file('profile_pic');
+        $randomStr = date('YmdHis') . Str::random(20);
+        $ext = $file->getClientOriginalExtension();
+        $filename = strtolower($randomStr) . '.' . $ext;
+        $file->move(public_path('upload/profile/'), $filename);
+        $user->profile_pic = $filename;
+    }
+
+    // Save changes once
+    $user->save();
+
+    return redirect()->back()->with('success', 'Account Updated Successfully');
+}
+
+
+    
+    
+
+
+
+
+
     public function student_list(Request $request)
     {
 

@@ -138,7 +138,16 @@ class User extends Authenticatable
     
         return $return;
     }
+    static function getRecordAll()
+    {
+        $return = self::select('*');
+        $return = $return->whereIn('is_admin', [1,2,3,4])
+                         ->where('is_delete', '=', 0)
+                         ->orderBy('id', 'desc')
+                         ->get();
     
+        return $return;
+    }
     
     static public function getSchoolAll(){
         return  self::select('*')

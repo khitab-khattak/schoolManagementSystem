@@ -60,4 +60,12 @@ class Parents extends User
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
+
+    static function getRecordAll()
+{
+    return self::select('*')
+        ->where('is_delete', 0)
+        ->orderBy('id', 'desc')
+        ->get();
+}
 }

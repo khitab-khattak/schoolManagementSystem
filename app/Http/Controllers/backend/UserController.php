@@ -6,10 +6,55 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use App\Models\User;
 
 class UserController extends Controller
 {
+    public function MyAccount(){
+        $user = Auth::guard('web')->user();
+        if (!$user) {
+            return redirect()->back()->with('error', 'Unauthorized access.');
+        }
+        $data['meta_title']="My Account";
+        $data['getRecordAll'] = User::getSingle(Auth::user()->id);
+        return view ('backend/profileChange/profile',$data);
+    }
+
+    public function UpdateAccount(Request $request, $id)
+    {
+      
+        $user = User::getSingle($id);
+    
+        // Basic validation
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'profile_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+       
+    
+        $user->name = trim($request->name);
+
+    
+        if (!empty($request->file('profile_pic'))) {
+            $file = $request->file('profile_pic');
+            $randomStr = date('YmdHis') . Str::random(20);
+            $ext = $file->getClientOriginalExtension(); // Get only the file extension
+            $filename = strtolower($randomStr) . '.' . $ext;
+            $file->move(public_path('upload/profile/'), $filename); // Always good to use public_path
+
+            $user->profile_pic = $filename;
+        }
+
+
+        $user->save(); 
+    
+        return redirect()->back()->with('success', 'Account Updated Successfully');
+    }
+    
+   
+
     public function ChangePassword(){
         $data['meta_title']='Change Password';
         return view('backend/PasswordChange/change_password',$data);

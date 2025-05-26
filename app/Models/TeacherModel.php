@@ -58,4 +58,10 @@ class TeacherModel extends Authenticatable
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
+    static function getRecordAll()
+    {
+        return self::where('is_admin', 5)
+            ->orderBy('id', 'desc')
+            ->get();
+    }
 }
