@@ -81,6 +81,14 @@ Route::group(['middleware'=>'admin'],function(){
     Route::get('panel/subject/edit/{id}', [SubjectController::class, 'edit_subject']);
     Route::post('panel/subject/edit/{id}', [SubjectController::class, 'update_subject']);
     Route::get('panel/subject/delete/{id}', [SubjectController::class, 'delete_subject'])->name('subject.delete');
+
+//assign subject
+    Route::get('panel/assign-subject/list',[SubjectController::class, 'assign_subject_list']);
+    Route::get('panel/assign-subject/create',[SubjectController::class, 'create_assign_subject']);
+    Route::post('panel/assign-subject/create', [SubjectController::class, 'insert_assign_subject']);
+    Route::get('panel/assign-subject/edit/{id}', [SubjectController::class, 'edit_assign_subject']);
+    Route::post('panel/assign-subject/edit/{id}', [SubjectController::class, 'update_assign_subject']);
+    Route::get('panel/assign-subject/delete/{id}', [SubjectController::class, 'delete_assign_subject']);
 //students
     Route::get('panel/student/list',[StudentController::class, 'student_list']);
     Route::get('panel/student/create',[StudentController::class, 'create_student']);

@@ -45,4 +45,14 @@ class Subject extends Model
     
         return $return;
     }
+    static function getSubjectActive($user_id)
+    {
+        $return = self::select('*')
+        ->where('status','=',1)
+        ->where('created_by_id','=',$user_id)
+        ->orderBy('id', 'desc')
+        ->paginate();
+    
+        return $return;
+    }
 }

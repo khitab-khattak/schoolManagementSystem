@@ -55,7 +55,7 @@ class ClassModel extends Model
         ->where('status','=',1)
         ->where('created_by_id','=',$user_id)
         ->orderBy('id', 'desc')
-        ->get();
+        ->paginate();
     
         return $return;
     }

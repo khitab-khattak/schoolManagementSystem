@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\backend;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
+use App\Models\ClassModel;
 use Illuminate\Http\Request;
 use App\Models\Subject;
+use App\Models\SubjectClassModel;
 use Illuminate\Support\Facades\Auth;
 
 class SubjectController extends Controller
@@ -26,7 +28,7 @@ class SubjectController extends Controller
         $subject->type = trim($request->type);
         $subject->created_by_id = Auth::user()->id;
         $subject->status = trim($request->status);
-       
+
         $subject->save();
         return redirect('panel/subject/list')->with('success', 'subject Created Successfully');
     }
@@ -67,5 +69,206 @@ class SubjectController extends Controller
         $subject->delete();
 
         return redirect()->back()->with('success', 'subject deleted successfully.');
+    }
+
+
+    public function assign_subject_list()
+    {
+        $data['getsubject'] = SubjectClassModel::getsubject(Auth::user()->id);
+        $data['meta_title'] = "Assign Subject Class List";
+        return view('backend.assignSubject.list', $data);
+    }
+
+    public function create_assign_subject()
+    {
+        $data['getClass'] = ClassModel::getClassActive(Auth::user()->id);
+        $data['getsubject'] = Subject::getSubjectActive(Auth::user()->id);
+        return view('backend.assignSubject.create', $data);
+    }
+    public function insert_assign_subject(Request $request)
+    {
+        // Validate input
+        $request->validate([
+            'class_id' => 'required|integer',
+            'subject_id' => 'required|array',
+            'subject_id.*' => 'integer', // each subject id is integer
+            'status' => 'nullable|in:0,1',
+        ]);
+    
+        if (!empty($request->subject_id) && !empty($request->class_id)) {
+            foreach ($request->subject_id as $subject_id) {
+                if (!empty($subject_id)) {
+                    // Check if the subject is already assigned to this class
+                    $exists = SubjectClassModel::where('class_id', $request->class_id)
+                        ->where('subject_id', $subject_id)
+                        ->exists();
+    
+                    if (!$exists) {
+                        $subjectAssign = new SubjectClassModel;
+                        $subjectAssign->class_id = $request->class_id;
+                        $subjectAssign->subject_id = $subject_id;
+                        $subjectAssign->created_by_id = Auth::user()->id;
+                        $subjectAssign->status = $request->status ?? 1;
+                        $subjectAssign->save();
+                    }
+                }
+            }
+            return redirect('panel/assign-subject/list')->with('success', 'Subjects Assigned Successfully');
+        }
+    
+        return redirect()->back()->with('error', 'Please select class and subjects');
+    }
+    
+
+
+
+
+
+    // public function update_assign_subject(Request $request, $id)
+    // {
+    //     // Find the record to get class_id and created_by_id for validation
+    //     $subjectAssign = SubjectClassModel::getSingle($id);
+    
+    //     if (!$subjectAssign) {
+    //         return redirect()->back()->with('error', 'Assign Subject Class not found.');
+    //     }
+    
+    //     $request->validate([
+    //         'class_id' => 'required|integer',
+    //         'subject_id' => 'required|array',
+    //         'subject_id.*' => 'integer',
+    //         'status' => 'required|in:0,1',
+    //     ]);
+    
+    //     $class_id = $request->class_id;
+    //     $created_by_id = Auth::user()->id;
+    
+    //     // Delete all existing assignments for this class & user
+    //     SubjectClassModel::where('class_id', $class_id)
+    //         ->where('created_by_id', $created_by_id)
+    //         ->delete();
+    
+    //     // Insert new assignments
+    //     foreach ($request->subject_id as $subject_id) {
+    //         if (!empty($subject_id)) {
+    //             $newAssign = new SubjectClassModel;
+    //             $newAssign->class_id = $class_id;
+    //             $newAssign->subject_id = $subject_id;
+    //             $newAssign->created_by_id = $created_by_id;
+    //             $newAssign->status = $request->status;
+    //             $newAssign->save();
+    //         }
+    //     }
+    
+    //     return redirect()->back()->with('success', 'Assign Subject Class Updated Successfully');
+    // }
+    
+
+
+
+
+    public function edit_assign_subject($id)
+{
+    // Get the record by id
+    $getRecord = SubjectClassModel::getSingle($id);
+    if (!$getRecord) {
+        return redirect()->back()->with('error', 'Assign Subject not found.');
+    }
+
+    // Get class_id from this record
+    $classId = $getRecord->class_id;
+
+    // Get all assigned subjects for this class and current user
+    $getSelectedSubject = SubjectClassModel::getSelectedSubject($classId, Auth::user()->id);
+
+    $data = [
+        'getRecord' => $getRecord,
+        'getSelectedSubject' => $getSelectedSubject,
+        'getClass' => ClassModel::getClassActive(Auth::user()->id),
+        'getsubject' => Subject::getSubjectActive(Auth::user()->id),
+        'meta_title' => 'Edit Assign Subject',
+    ];
+
+    return view('backend.assignSubject.edit', $data);
+}
+
+
+public function update_assign_subject(Request $request, $id)
+{
+    $request->validate([
+        'class_id' => 'required|integer',
+        'subject_id' => 'required|array',
+        'subject_id.*' => 'integer',
+        'status' => 'required|in:0,1',
+    ]);
+
+    $classId = $request->class_id;
+    $createdById = Auth::id();
+    $newSubjectIds = $request->subject_id;
+
+    // Fetch all previous subject_ids for this class & user
+    $existingAssignments = SubjectClassModel::where('class_id', $classId)
+        ->where('created_by_id', $createdById)
+        ->get();
+
+    $existingSubjectIds = $existingAssignments->pluck('subject_id')->toArray();
+
+    // Find subjects to delete
+    $toDelete = array_diff($existingSubjectIds, $newSubjectIds);
+    // Find subjects to insert
+    $toInsert = array_diff($newSubjectIds, $existingSubjectIds);
+    // Find subjects to update (already exist and still selected)
+    $toUpdate = array_intersect($existingSubjectIds, $newSubjectIds);
+
+    // ✅ Delete deselected subjects
+    if (!empty($toDelete)) {
+        SubjectClassModel::where('class_id', $classId)
+            ->where('created_by_id', $createdById)
+            ->whereIn('subject_id', $toDelete)
+            ->delete();
+    }
+
+    // ✅ Insert new subjects
+    foreach ($toInsert as $subject_id) {
+        SubjectClassModel::create([
+            'class_id' => $classId,
+            'subject_id' => $subject_id,
+            'created_by_id' => $createdById,
+            'status' => $request->status,
+        ]);
+    }
+
+    // ✅ Update status for existing assignments if needed
+    foreach ($toUpdate as $subject_id) {
+        SubjectClassModel::where('class_id', $classId)
+            ->where('created_by_id', $createdById)
+            ->where('subject_id', $subject_id)
+            ->update([
+                'status' => $request->status,
+            ]);
+    }
+
+    return redirect('panel/assign-subject/list')->with('success', 'Assign Subject Updated Successfully');
+}
+
+
+    
+    
+    
+    
+
+
+
+    public function delete_assign_subject($id)
+    {
+        $subject = SubjectClassModel::find($id);
+
+        if (!$subject) {
+            return redirect()->back()->with('error', 'Assign Subject Class not found.');
+        }
+
+        $subject->delete();
+
+        return redirect()->back()->with('success', 'Assign Subject Class deleted successfully.');
     }
 }
