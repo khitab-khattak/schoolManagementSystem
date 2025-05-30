@@ -89,6 +89,13 @@ Route::group(['middleware'=>'admin'],function(){
     Route::get('panel/assign-subject/edit/{id}', [SubjectController::class, 'edit_assign_subject']);
     Route::post('panel/assign-subject/edit/{id}', [SubjectController::class, 'update_assign_subject']);
     Route::get('panel/assign-subject/delete/{id}', [SubjectController::class, 'delete_assign_subject']);
+
+
+    //classtimetable
+    Route::get('panel/class-timetable/list',[SubjectController::class, 'class_timetable']);
+    Route::post('panel/class-timetable/list',[SubjectController::class, 'submit_class_timetable']);
+    Route::post('panel/get-assign-subject-class', [SubjectController::class, 'get_assign_subject_class']);
+
 //students
     Route::get('panel/student/list',[StudentController::class, 'student_list']);
     Route::get('panel/student/create',[StudentController::class, 'create_student']);

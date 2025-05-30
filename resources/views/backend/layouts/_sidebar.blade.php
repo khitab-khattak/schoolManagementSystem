@@ -171,7 +171,7 @@
         @if (Auth::check() && Auth::guard('web')->user()->is_admin == 3)
             <!-- Layouts Dropdown -->
             <li
-                class="xn-openable {{ in_array(Request::segment(2), ['class', 'subject', 'assign-subject', 'parents']) ? 'active' : '' }}">
+                class="xn-openable {{ in_array(Request::segment(2), ['class', 'subject', 'assign-subject', 'parents','class-timetable']) ? 'active' : '' }}">
                 <a href="#">
                     <span class="fa fa-graduation-cap"></span>
                     <span class="xn-text">Academics</span>
@@ -185,6 +185,11 @@
                     </li>
                     <li class="{{ Request::segment(2) == 'assign-subject' ? 'active' : '' }}">
                         <a href="{{ url('panel/assign-subject/list') }}"><span class="fa fa-book"></span> Assign Subjects</a>
+                    </li>
+                    <li class="{{ Request::segment(2) == 'class-timetable' ? 'active' : '' }}">
+                        <a href="{{ url('panel/class-timetable/list') }}">
+                            <span class="fa fa-clock-o"></span> Class Timetable
+                        </a>
                     </li>
                 </ul>
             </li>
