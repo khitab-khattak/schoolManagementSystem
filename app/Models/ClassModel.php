@@ -14,7 +14,7 @@ class ClassModel extends Model
         return ClassModel::find($id);
     }
 
-    static function getclass($user_id,$user_type)
+    static function getclass($user_id)
     {
         $return = self::select('*');
     

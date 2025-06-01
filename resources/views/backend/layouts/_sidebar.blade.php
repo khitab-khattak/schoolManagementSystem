@@ -141,7 +141,7 @@
             </li>
         @endif
 
-        @if (Auth::check() && (Auth::user()->is_admin == 1 || Auth::user()->is_admin == 2))
+        @if (Auth::check() && (Auth::user()->is_admin == 1 || Auth::user()->is_admin == 2 || Auth::user()->is_admin == 3))
             <li class="{{ Request::segment(2) == 'school_admin' ? 'active' : '' }}">
                 <a href="{{ url('/panel/school_admin/list') }}">
                     <span class="fa fa-user"></span>
@@ -171,7 +171,7 @@
         @if (Auth::check() && Auth::guard('web')->user()->is_admin == 3)
             <!-- Layouts Dropdown -->
             <li
-                class="xn-openable {{ in_array(Request::segment(2), ['class', 'subject', 'assign-subject', 'parents','class-timetable']) ? 'active' : '' }}">
+                class="xn-openable {{ in_array(Request::segment(2), ['class', 'subject', 'assign-subject','class-timetable','assign-class-teacher']) ? 'active' : '' }}">
                 <a href="#">
                     <span class="fa fa-graduation-cap"></span>
                     <span class="xn-text">Academics</span>
@@ -185,6 +185,9 @@
                     </li>
                     <li class="{{ Request::segment(2) == 'assign-subject' ? 'active' : '' }}">
                         <a href="{{ url('panel/assign-subject/list') }}"><span class="fa fa-book"></span> Assign Subjects</a>
+                    </li>
+                    <li class="{{ Request::segment(2) == 'assign-class-teacher' ? 'active' : '' }}">
+                        <a href="{{ url('panel/assign-class-teacher/list') }}"><span class="fa fa-book"></span> Assign Class Teacher</a>
                     </li>
                     <li class="{{ Request::segment(2) == 'class-timetable' ? 'active' : '' }}">
                         <a href="{{ url('panel/class-timetable/list') }}">

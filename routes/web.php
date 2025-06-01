@@ -7,6 +7,7 @@ use App\Http\Controllers\backend\SchoolController;
 use App\Http\Controllers\backend\SchoolAdminController;
 use App\Http\Controllers\backend\AdminController;
 use App\Http\Controllers\backend\ClassController;
+use App\Http\Controllers\backend\ClassTeacherController;
 use App\Http\Controllers\backend\StudentController;
 use App\Http\Controllers\backend\SubjectController;
 use App\Http\Controllers\backend\TeacherController;
@@ -89,6 +90,14 @@ Route::group(['middleware'=>'admin'],function(){
     Route::get('panel/assign-subject/edit/{id}', [SubjectController::class, 'edit_assign_subject']);
     Route::post('panel/assign-subject/edit/{id}', [SubjectController::class, 'update_assign_subject']);
     Route::get('panel/assign-subject/delete/{id}', [SubjectController::class, 'delete_assign_subject']);
+
+    //assign Class Teacher
+    Route::get('panel/assign-class-teacher/list',[ClassTeacherController::class, 'assign_class_teacher_list']);
+    Route::get('panel/assign-class-teacher/create',[ClassTeacherController::class, 'create_assign_class_teacher']);
+    Route::post('panel/assign-class-teacher/create', [ClassTeacherController::class, 'insert_assign_class_teacher']);
+    Route::get('panel/assign-class-teacher/edit/{id}', [ClassTeacherController::class, 'edit_assign_class_teacher']);
+    Route::post('panel/assign-class-teacher/edit/{id}', [ClassTeacherController::class, 'update_assign_class_teacher']);
+    Route::get('panel/assign-class-teacher/delete/{id}', [ClassTeacherController::class, 'delete_assign_class_teacher']);
 
 
     //classtimetable

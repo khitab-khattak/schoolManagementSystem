@@ -64,4 +64,29 @@ class TeacherModel extends Authenticatable
             ->orderBy('id', 'desc')
             ->get();
     }
+    static function getTeacherActive($user_id, $user_type)
+    {
+        $return = self::select('*');
+    
+        if ($user_type == 3) {
+            $return = $return->where('created_by_id', '=', $user_id);
+        }
+    
+        return $return->where('is_admin', '=', 5)
+                     ->where('status', '=', 1)
+                     ->orderBy('id', 'desc')
+                     ->get();
+    }
+    static function getClassTeacherActive($user_id)
+    {
+        $return = self::select('*');
+
+    
+        return $return->where('is_admin', '=', 5)
+        ->where('created_by_id', '=', $user_id)
+                     ->where('status', '=', 1)
+                     ->orderBy('id', 'desc')
+                     ->get();
+    }
+    
 }
