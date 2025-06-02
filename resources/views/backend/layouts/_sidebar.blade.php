@@ -71,11 +71,15 @@
                 <a href="{{ url('student/my-account') }}"><span class="fa fa-user"></span> My Account</a>
             </li>
         @elseif ($currentGuard == 'teacher')
-            {{-- Teacher-specific sidebar --}}
-            <li>
-                <a href="{{ url('/teacher/dashboard') }}">
-                    <span class="fa fa-chalkboard-teacher"></span> Dashboard
-                </a>
+        <li class="{{ Request::segment(2) == 'dashboard' ? 'active' : '' }}">
+            <a href="{{ url('/teacher/dashboard') }}">
+                <span class="fa fa-tachometer-alt"></span> Dashboard
+                
+            </a>
+        </li>
+        
+            <li class="{{ Request::segment(2) == 'my-class-subject' ? 'active' : '' }}">
+                <a href="{{ url('teacher/my-class-subject') }}"><span class="fa fa-users"></span> My Class & Subjects</a>
             </li>
             <li class="{{ Request::segment(2) == 'change-password' ? 'active' : '' }}">
                 <a href="{{ url('teacher/change-password') }}"><span class="fa fa-key"></span> Change Password</a>

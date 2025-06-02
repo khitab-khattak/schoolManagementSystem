@@ -63,4 +63,30 @@ class ClassTeacher extends Model
             ->get();
     }
 
+    static public function getRecordTeacher($teacher_id)
+    {
+        $return = self::select(
+            'class_teacher.*',
+            'class.name as class_name',
+            'subjects.name as subject_name',
+            'subjects.type as subject_type'
+        )
+        ->join('class', 'class.id', '=', 'class_teacher.class_id')
+        ->join('subject_class', 'subject_class.class_id', '=', 'class_teacher.class_id')
+        ->join('subjects', 'subjects.id', '=', 'subject_class.subject_id')
+        ->where('class_teacher.teacher_id', $teacher_id)
+        ->where('class_teacher.status', 1);
+    
+    if (!empty(request()->get('class_name'))) {
+        $return->where('class.name', 'like', request()->get('class_name') . '%');
+    }
+
+    if (!empty(request()->get('subject_name'))) {
+        $return->where('subjects.name', 'like', request()->get('subject_name') . '%');
+    }
+    
+        return $return->orderBy('class_teacher.id', 'desc')->paginate(10);
+    }
+    
+
 }

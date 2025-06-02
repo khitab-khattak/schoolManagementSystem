@@ -12,6 +12,7 @@ use App\Http\Controllers\backend\StudentController;
 use App\Http\Controllers\backend\SubjectController;
 use App\Http\Controllers\backend\TeacherController;
 use App\Http\Controllers\backend\ParentsController;
+use App\Http\Controllers\backend\TeacherMyclassAndSubjectController;
 use App\Http\Controllers\backend\UserController;
 
 
@@ -30,7 +31,7 @@ Route::group(['middleware' => 'common'], function () {
 
 
 
-Route::group(['middleware'=>'admin'],function(){
+Route::group(['middleware'=>'common'],function(){
     //adminH
     Route::get('panel/admin/list',[AdminController::class, 'admin_list']);
     Route::get('panel/admin/create',[AdminController::class, 'create_admin']);
@@ -58,6 +59,8 @@ Route::group(['middleware'=>'admin'],function(){
     Route::get('panel/teacher/edit/{id}', [TeacherController::class, 'edit_teacher']);
     Route::post('panel/teacher/edit/{id}', [TeacherController::class, 'update_teacher']);
     Route::get('panel/teacher/delete/{id}', [TeacherController::class, 'delete_teacher'])->name('teacher.delete');
+    //teacher my class and subjects
+    Route::get('teacher/my-class-subject',[TeacherMyclassAndSubjectController::class, 'class_and_subject_list']);
 //school admin
     Route::get('panel/school_admin/list',[SchoolAdminController::class, 'school_admin_list']);
     Route::get('panel/school_admin/create',[SchoolAdminController::class, 'create_school_admin']);
