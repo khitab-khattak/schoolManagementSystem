@@ -107,6 +107,8 @@
                                                     <a href="{{ url('panel/assign-subject/edit/' . $value->id) }}"
                                                         class="btn btn-default btn-rounded btn-sm"><span
                                                             class="fa fa-pencil"></span></a>
+                                                            <a href="{{ url('panel/single-assign-subject/edit/' . $value->id) }}"
+                                                                class="btn btn-primary  btn-sm">Edit Single</a>
                                                     <a href="{{ url('panel/assign-subject/delete/' . $value->id) }}"
                                                         class="btn btn-danger btn-rounded btn-sm"
                                                         onclick="return confirm('Are you sure you want to delete this assign-subject?');">

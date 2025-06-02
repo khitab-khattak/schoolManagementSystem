@@ -255,6 +255,46 @@ class SubjectController extends Controller
 
 
 
+    public function edit_single_assign_subject($id)
+    {
+        $getRecord = SubjectClassModel::getSingle($id);
+
+        $data = [
+            'getRecord' => $getRecord,
+            'getClass' => ClassModel::getClassActive(Auth::user()->id),
+            'getsubject' => Subject::getSubjectActive(Auth::user()->id),
+            'meta_title' => 'Edit Assign Subject Class',
+        ];
+
+        return view('backend.assignSubject.edit_single', $data);
+    }
+
+
+    public function update_single_assign_subject(Request $request, $id)
+    {
+        // Check if a record with the same class and teacher exists, excluding the current one
+        $check = SubjectClassModel::where('id', '!=', $id)
+            ->where('class_id', $request->class_id)
+            ->where('subject_id', $request->subject_id)
+            ->where('created_by_id', Auth::user()->id)
+            ->first();
+    
+        if ($check) {
+            return redirect()->back()->with('error', 'This class is already assigned to the selected teacher.');
+        }
+    
+        // Update the current record
+        $record = SubjectClassModel::findOrFail($id);
+        $record->class_id = trim($request->class_id);
+        $record->subject_id = trim($request->subject_id);
+        $record->status = trim($request->status);
+        $record->save();
+    
+        return redirect('panel/assign-subject/list')->with('success', 'Assigned Subject Class updated successfully');
+    }
+
+
+
 
 
 

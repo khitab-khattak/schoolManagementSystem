@@ -11,17 +11,19 @@ use Illuminate\Support\Facades\Auth;
 
 class ClassTeacherController extends Controller
 {
-    public function assign_class_teacher_list(){
+    public function assign_class_teacher_list()
+    {
         $data['getRecord'] = ClassModel::getclass(Auth::user()->id);
         $data['getteacher'] = ClassTeacher::getClassteacher(Auth::user()->id);
-        $data['meta-title']="Assign Class Teacher";
-        return view('backend.assignClassTeacher.list',$data);
+        $data['meta_title'] = "Assign Class Teacher";
+        return view('backend.assignClassTeacher.list', $data);
     }
-    public function create_assign_class_teacher(){
-        $data['getTeacher'] = TeacherModel::getClassTeacherActive(Auth::user()->id,Auth::user()->is_admin);
+    public function create_assign_class_teacher()
+    {
+        $data['getTeacher'] = TeacherModel::getClassTeacherActive(Auth::user()->id, Auth::user()->is_admin);
         $data['getClass'] = ClassModel::getClassActive(Auth::user()->id);
-        $data['meta-title']="Create Assign Class Teacher";
-        return view('backend.assignClassTeacher.create',$data);
+        $data['meta_title'] = "Create Assign Class Teacher";
+        return view('backend.assignClassTeacher.create', $data);
     }
     public function insert_assign_class_teacher(Request $request)
     {
@@ -56,6 +58,40 @@ class ClassTeacherController extends Controller
 
         return redirect()->back()->with('error', 'Please select Class and Teacher');
     }
+    public function edit_single_assign_class_teacher($id)
+    {
+        $data['getRecord'] = ClassTeacher::getSingle($id);
+        $data['getteacher'] = TeacherModel::getClassTeacherActive(Auth::user()->id);
+        $data['getClass'] = ClassModel::getClassActive(Auth::user()->id);
+        $data['meta_title'] = "Edit Assign Class Teacher";
+
+        return view('backend.assignClassTeacher.edit_single', $data);
+    }
+
+    public function update_single_assign_class_teacher(Request $request, $id)
+    {
+        // Check if a record with the same class and teacher exists, excluding the current one
+        $check = ClassTeacher::where('id', '!=', $id)
+            ->where('class_id', $request->class_id)
+            ->where('teacher_id', $request->teacher_id)
+            ->where('created_by_id', Auth::user()->id)
+            ->first();
+    
+        if ($check) {
+            return redirect()->back()->with('error', 'This class is already assigned to the selected teacher.');
+        }
+    
+        // Update the current record
+        $record = ClassTeacher::findOrFail($id);
+        $record->class_id = trim($request->class_id);
+        $record->teacher_id = trim($request->teacher_id);
+        $record->status = trim($request->status);
+        $record->save();
+    
+        return redirect('panel/assign-class-teacher/list')->with('success', 'Assigned Class Teacher updated successfully');
+    }
+    
+
 
     public function edit_assign_class_teacher($id)
     {
@@ -75,7 +111,7 @@ class ClassTeacherController extends Controller
             'getRecord' => $getRecord,
             'getSelectedTeacher' => $getSelectedTeacher,
             'getClass' => ClassModel::getClassActive(Auth::user()->id),
-            'getteacher' => TeacherModel::getClassTeacherActive(Auth::user()->id,Auth::user()),
+            'getteacher' => TeacherModel::getClassTeacherActive(Auth::user()->id, Auth::user()),
             'meta_title' => 'Edit Assign Teacher',
         ];
 
@@ -91,23 +127,23 @@ class ClassTeacherController extends Controller
             'teacher_id.*' => 'integer',
             'status' => 'required|in:0,1',
         ]);
-    
+
         $classId = $request->class_id;
         $createdById = Auth::id();
         $newTeacherIds = $request->teacher_id;
-    
+
         // Get current assigned teacher_ids for this class & user
         $existingAssignments = ClassTeacher::where('class_id', $classId)
             ->where('created_by_id', $createdById)
             ->get();
-    
+
         $existingTeacherIds = $existingAssignments->pluck('teacher_id')->toArray();
-    
+
         // Determine what to delete, insert, and update
         $toDelete = array_diff($existingTeacherIds, $newTeacherIds);
         $toInsert = array_diff($newTeacherIds, $existingTeacherIds);
         $toUpdate = array_intersect($existingTeacherIds, $newTeacherIds);
-    
+
         // Delete unselected teachers
         if (!empty($toDelete)) {
             ClassTeacher::where('class_id', $classId)
@@ -115,7 +151,7 @@ class ClassTeacherController extends Controller
                 ->whereIn('teacher_id', $toDelete)
                 ->delete();
         }
-    
+
         // Insert new teachers
         foreach ($toInsert as $teacher_id) {
             ClassTeacher::create([
@@ -125,7 +161,7 @@ class ClassTeacherController extends Controller
                 'status' => $request->status,
             ]);
         }
-    
+
         // Update status for retained teachers
         foreach ($toUpdate as $teacher_id) {
             ClassTeacher::where('class_id', $classId)
@@ -135,10 +171,10 @@ class ClassTeacherController extends Controller
                     'status' => $request->status,
                 ]);
         }
-    
+
         return redirect('panel/assign-class-teacher/list')->with('success', 'Assign Class Teacher Updated Successfully');
     }
-    
+
 
 
 

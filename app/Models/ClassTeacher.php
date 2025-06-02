@@ -62,4 +62,5 @@ class ClassTeacher extends Model
             ->where('class_teacher.class_id', '=', $class_id)
             ->get();
     }
+
 }

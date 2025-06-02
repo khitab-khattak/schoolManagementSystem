@@ -99,6 +99,12 @@ Route::group(['middleware'=>'admin'],function(){
     Route::post('panel/assign-class-teacher/edit/{id}', [ClassTeacherController::class, 'update_assign_class_teacher']);
     Route::get('panel/assign-class-teacher/delete/{id}', [ClassTeacherController::class, 'delete_assign_class_teacher']);
 
+    //edit single Assign Class Teacher and Assign Subject Classs
+    Route::get('panel/assign-class-teacher/edit-single/{id}', [ClassTeacherController::class, 'edit_single_assign_class_teacher']);
+    Route::post('panel/assign-class-teacher/edit-single/{id}', [ClassTeacherController::class, 'update_single_assign_class_teacher']);
+    Route::get('panel/single-assign-subject/edit/{id}', [SubjectController::class, 'edit_single_assign_subject']);
+    Route::post('panel/single-assign-subject/edit/{id}', [SubjectController::class, 'update_single_assign_subject']);
+
 
     //classtimetable
     Route::get('panel/class-timetable/list',[SubjectController::class, 'class_timetable']);
