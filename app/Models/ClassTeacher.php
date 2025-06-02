@@ -69,7 +69,8 @@ class ClassTeacher extends Model
             'class_teacher.*',
             'class.name as class_name',
             'subjects.name as subject_name',
-            'subjects.type as subject_type'
+            'subjects.type as subject_type',
+            'subject_class.subject_id'
         )
         ->join('class', 'class.id', '=', 'class_teacher.class_id')
         ->join('subject_class', 'subject_class.class_id', '=', 'class_teacher.class_id')

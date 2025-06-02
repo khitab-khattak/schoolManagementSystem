@@ -3,13 +3,13 @@
     <!-- START BREADCRUMB -->
     <ul class="breadcrumb">
         <li><a href="#">Home</a></li>
-        <li class="active">School</li>
+        <li class="active">My Class & Subject</li>
     </ul>
     <!-- END BREADCRUMB -->
 
     <!-- PAGE TITLE -->
     <div class="page-title">
-        <h2><span class="fa fa-arrow-circle-o-left"></span> School</h2>
+        <h2><span class="fa fa-arrow-circle-o-left"></span> My Class & Subject</h2>
     </div>
     <!-- END PAGE TITLE -->
 
@@ -30,15 +30,15 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <label>Class Name</label>
-                                    <input type="text" class="form-control" name="class_name" value="{{ request('class_name') }}"
-                                        placeholder="Class Name">
+                                    <input type="text" class="form-control" name="class_name"
+                                        value="{{ request('class_name') }}" placeholder="Class Name">
                                 </div>
                                 <div class="col-md-2">
                                     <label>Subject Name</label>
-                                    <input type="text" class="form-control" name="subject_name" value="{{ request('subject_name') }}"
-                                        placeholder="Subject Name">
+                                    <input type="text" class="form-control" name="subject_name"
+                                        value="{{ request('subject_name') }}" placeholder="Subject Name">
                                 </div>
-                               
+
                                 <div class="col-md-12" style="margin-top: 25px;">
                                     <button type="submit" class="btn btn-primary">Search</button>
                                     <a href="{{ url('teacher/my-class-subject') }}" class="btn btn-success">Reset</a>
@@ -49,6 +49,7 @@
 
                 </div>
                 <div class="panel panel-default">
+                    
 
 
                     <div class="panel-body panel-body-table">
@@ -75,23 +76,21 @@
                                                 <td class="text-center">{{ $value->subject_name }}</td>
                                                 <td class="text-center">{{ $value->subject_type }}</td>
                                                 <td>
-                                                    @if ($value->status == 1)
-                                                    <span class="label label-success">Active</span>
+                                                    @php
+                                                        $getClassTimetable = App\Models\ClassTimetable::getRecordA($value->class_id, $value->subject_id, date('l'));
+                                                    @endphp
+                                                
+                                                    @if($getClassTimetable)
+                                                        {{ date('h:i A', strtotime($getClassTimetable->start_time)) }} to {{ date('h:i A', strtotime($getClassTimetable->end_time)) }}
                                                     @else
-                                                    <span class="label label-danger">Inactive</span>
+                                                    Not Scheduled
                                                     @endif
-                                                   </td>
+                                                </td>
+                                                
                                                 <td>{{ $value->created_at->format('d M, Y h:i A') }}</td>
                                                 <td>
-                                                    <a href="{{ url('panel/school/edit/' . $value->id) }}"
-                                                        class="btn btn-default btn-rounded btn-sm"><span
-                                                            class="fa fa-pencil"></span></a>
-                                                    <a href="{{ url('panel/school/delete/' . $value->id) }}"
-                                                        class="btn btn-danger btn-rounded btn-sm"
-                                                        onclick="return confirm('Are you sure you want to delete this school?');">
-                                                        <span class="fa fa-times"></span>
-                                                    </a>
-
+                                                    <a href="{{ url('teacher/my-class-subject/timetable/' . $value->class_id.'/'.$value->subject_id) }}"
+                                                        class="btn btn-primary btn-sm">Class Timetabel</a>
                                                 </td>
                                             </tr>
                                         @endforeach

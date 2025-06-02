@@ -61,6 +61,9 @@ Route::group(['middleware'=>'common'],function(){
     Route::get('panel/teacher/delete/{id}', [TeacherController::class, 'delete_teacher'])->name('teacher.delete');
     //teacher my class and subjects
     Route::get('teacher/my-class-subject',[TeacherMyclassAndSubjectController::class, 'class_and_subject_list']);
+    Route::get('teacher/my-class-subject/timetable/{class_id}/{subject_id}', [TeacherMyclassAndSubjectController::class, 'Teacher_Class_Timetable']);
+
+
 //school admin
     Route::get('panel/school_admin/list',[SchoolAdminController::class, 'school_admin_list']);
     Route::get('panel/school_admin/create',[SchoolAdminController::class, 'create_school_admin']);
